@@ -6,6 +6,7 @@ public class King extends Piece{
     public King(String color, Position position) {
         super(color, "king", position);
         this.position.setImage("king",color);
+        this.firstTime = 0;
     }
 
     @Override
@@ -95,6 +96,8 @@ public class King extends Piece{
             }
         }
 
+
+
         System.out.println("Possible Moves :");
         for(Position c:possibleMoves){
             System.out.print(c.getX()+""+c.getY());
@@ -102,5 +105,9 @@ public class King extends Piece{
 
         return possibleMoves;
     }
+    public void changeFirstTime(){
+        this.firstTime = 1;
+    }
+
 
 }

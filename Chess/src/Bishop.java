@@ -7,6 +7,8 @@ public class Bishop  extends Piece{
     public Bishop(String color, Position position){
         super(color,"bishop",position);
         this.position.setImage("bishop",color);
+        this.firstTime = 0;
+
     }
     @Override
     public ArrayList<Position> possibleMoves() {
@@ -81,6 +83,9 @@ public class Bishop  extends Piece{
             System.out.print(c.getX()+""+c.getY());
         }
         return possibleMoves;
+    }
+    public void changeFirstTime(){
+        this.firstTime = 1;
     }
 }
 

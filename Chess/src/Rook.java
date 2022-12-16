@@ -8,6 +8,7 @@ public class Rook extends  Piece{
     public Rook(String color, Position position) {
         super(color, "rook", position);
         this.position.setImage("rook",color);
+        this.firstTime = 0;
     }
 
     @Override
@@ -83,5 +84,9 @@ public class Rook extends  Piece{
         }
         return possibleMoves;
     }
+    public void changeFirstTime(){
+        this.firstTime = 1;
+    }
+
 }
 

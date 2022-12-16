@@ -7,6 +7,8 @@ public class Knight extends Piece{
     public Knight(String color,Position position) {
         super(color, "knight", position);
         this.position.setImage("knight",color);
+        this.firstTime = 0;
+
     }
 
     @Override
@@ -88,6 +90,9 @@ public class Knight extends Piece{
         }
 
         return possibleMoves;
+    }
+    public void changeFirstTime(){
+        this.firstTime = 1;
     }
 }
 

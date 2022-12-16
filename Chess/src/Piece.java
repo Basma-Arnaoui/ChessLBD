@@ -7,18 +7,24 @@ public abstract class Piece {
     String name;
     boolean isAlive;
     Position position;
+    int firstTime;
     ImageView image;
     Piece(String color, String name, Position pos){
         this.color = color;
         this.name = name;
         this.position = pos;
         this.isAlive = true;
+        this.firstTime = 0;
+
 
     }
     public abstract ArrayList<Position> possibleMoves();
      public void delete(){
          this.isAlive = false;
          this.position = null;
+     }
+     public int getFirstTime(){
+         return this.firstTime;
      }
 
     public ImageView getImage() {
@@ -37,6 +43,9 @@ public abstract class Piece {
         this.color = color;
     }
 
+    public void changeFirstTime(){
+        this.firstTime = 1;
+    }
     public String getName() {
         return this.name;
     }
@@ -60,4 +69,7 @@ public abstract class Piece {
     public void setPosition(Position position) {
         this.position = position;
     }
+
+
 }
+

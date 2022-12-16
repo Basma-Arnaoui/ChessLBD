@@ -9,6 +9,8 @@ public class Queen extends Piece {
     public Queen(String color, Position position) {
         super(color,"queen",position);
         this.position.setImage("queen",color);
+        this.firstTime = 0;
+
     }
 
     @Override
@@ -212,5 +214,8 @@ public class Queen extends Piece {
             System.out.print((c.getY()+1)+""+(c.getX()+1)+" ");
         }
         return possibleMoves;
+    }
+    public void changeFirstTime(){
+        this.firstTime = 1;
     }
 }

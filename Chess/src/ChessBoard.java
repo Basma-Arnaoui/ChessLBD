@@ -7,11 +7,16 @@ import javafx.scene.layout.Region.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static javafx.scene.paint.Color.BROWN;
+import static javafx.scene.paint.Color.GOLD;
+
 public class ChessBoard extends GridPane{
 
     protected Position[][] positions;
+    protected ArrayList<Position> clicks;
     protected ArrayList<Position> srcPossibleMoves;
     protected Position src;
+    protected int turns;
     protected boolean firstClick;
 
     public ChessBoard() {
@@ -31,6 +36,8 @@ public class ChessBoard extends GridPane{
         }
 
         this.positions = new Position[8][8];
+        this.turns = 0; // 0 for white and 1 for black
+        this.clicks = new ArrayList<Position>();
 
         //Button handler to handle click operations
         ButtonHandler onClick = new ButtonHandler();
@@ -67,7 +74,22 @@ public class ChessBoard extends GridPane{
                 c.possiblePositions();
         }
     }
+    public void deselectAll(Position cell){
+        this.firstClick = false;
+        cell.possiblePositions();;
+        ArrayList<Position> srcPM = cell.getOccupyingPiece().possibleMoves();
+        for (Position c:srcPM){
+            this.deselectPosition(c);
+        }
 
+    }
+    void deselectPosition(Position cell){
+        int x = cell.getY()+cell.getX();
+        if(x%2==0) cell.setBackground(new Background(new BackgroundFill(GOLD,null,null)));
+        else cell.setBackground(new Background(new BackgroundFill(BROWN,null,null)));;
+
+
+    }
     void makeMove(Position src,Position dest){
 
         if(dest.getIsOccupied())
@@ -161,6 +183,24 @@ public class ChessBoard extends GridPane{
     public GridPane board() {
         return this;
     }
+    public boolean ltCastle(){
+            if ((positions[0][1].getOccupyingPiece()==null)&&(positions[0][2].getOccupyingPiece()==null)&&(positions[0][3].getOccupyingPiece()==null)) return true;
+            return false;
+        }
+
+    public boolean rtCastle(){
+
+        if ((positions[0][6].getOccupyingPiece()==null)&&(positions[0][5].getOccupyingPiece()==null)) return true;
+        return false;
+    }
+    public boolean lbCastle(){
+        if ((positions[7][1].getOccupyingPiece()==null)&&(positions[7][2].getOccupyingPiece()==null)) return true;
+        return false;
+    }
+    public boolean rbCastle(){
+        if ((positions[7][6].getOccupyingPiece()==null)&&(positions[7][5].getOccupyingPiece()==null)&&(positions[7][4].getOccupyingPiece()==null)) return true;
+        return false;
+    }
     public class ButtonHandler implements EventHandler<MouseEvent> {
         public ButtonHandler() {
         }
@@ -170,32 +210,144 @@ public class ChessBoard extends GridPane{
             System.out.println("Position Row: " + clickedPosition.getX() + "Col " + clickedPosition.getY());
             Iterator var3;
             Position c;
-            if (clickedPosition.getIsOccupied()) {
+            int castleI = 0;
+
+
+            if ((clickedPosition.getIsOccupied()) && (((clickedPosition.getOccupyingPiece().getColor()=="black")&&(ChessBoard.this.turns%2==1)) || ((clickedPosition.getOccupyingPiece().getColor()=="white") && (ChessBoard.this.turns%2==0)))){
                 if (!ChessBoard.this.firstClick) {
                     ChessBoard.this.selectPosition(clickedPosition);
-                } else {
-                    var3 = ChessBoard.this.srcPossibleMoves.iterator();
+                    ChessBoard.this.clicks.add(clickedPosition);
+                }
 
-                    while(var3.hasNext()) {
-                        c = (Position)var3.next();
-                        if (c.equals(clickedPosition)) {
-                            ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
-                            ChessBoard.this.src.changeColor();
-                            ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
-                            ChessBoard.this.firstClick = false;
-                            ChessBoard.this.src = null;
-                            ChessBoard.this.srcPossibleMoves = null;
-                            break;
+                    else{
+
+                        Position lastclick = ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1);
+                        if ((lastclick.getOccupyingPiece().getName().equals("king"))&&(clickedPosition.getOccupyingPiece().getName().equals("rook"))){
+                            if((lastclick.getOccupyingPiece().getFirstTime()==0)&&(clickedPosition.getOccupyingPiece().getFirstTime()==0)){
+                                if ((clickedPosition.getX() == 0) && (clickedPosition.getY() == 7)) {
+                                    if (rtCastle()) {
+                                        ChessBoard.this.deselectAll(positions[0][7]);
+                                        ChessBoard.this.deselectAll(positions[0][4]);
+
+                                        ChessBoard.this.makeMove(lastclick, positions[0][6]);
+                                        ChessBoard.this.makeMove(clickedPosition, positions[0][5]);
+                                        clickedPosition.getOccupyingPiece().changeFirstTime();
+                                        lastclick.getOccupyingPiece().changeFirstTime();
+                                        castleI=1;
+                                        ChessBoard.this.deselectAll(positions[0][0]);
+                                        ChessBoard.this.src.changeColor();
+                                        ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
+                                        ChessBoard.this.firstClick = false;
+                                        ChessBoard.this.src = null;
+                                        ChessBoard.this.srcPossibleMoves = null;
+                                        ChessBoard.this.turns = ChessBoard.this.turns+1;
+
+
+                                    }
+                                }
+                                if (ltCastle()){
+                                if ((clickedPosition.getX() == 0) && (clickedPosition.getY() == 0)) {
+                                    ChessBoard.this.deselectAll(positions[0][0]);
+                                    ChessBoard.this.deselectAll(positions[0][4]);
+
+                                    ChessBoard.this.makeMove(lastclick, positions[0][2]);
+                                    ChessBoard.this.makeMove(clickedPosition, positions[0][3]);
+                                    clickedPosition.getOccupyingPiece().changeFirstTime();
+                                    lastclick.getOccupyingPiece().changeFirstTime();
+                                    castleI=1;
+                                    ChessBoard.this.src.changeColor();
+                                    ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
+                                    ChessBoard.this.firstClick = false;
+                                    ChessBoard.this.src = null;
+                                    ChessBoard.this.srcPossibleMoves = null;
+                                    ChessBoard.this.turns = ChessBoard.this.turns+1;
+
+                                }
+                                }
+                                if(lbCastle()){
+                                if ((clickedPosition.getX() == 7) && (clickedPosition.getY() == 0)) {                                        ChessBoard.this.deselectAll(positions[0][0]);
+                                    ChessBoard.this.deselectAll(positions[7][0]);
+                                    ChessBoard.this.deselectAll(positions[7][3]);
+
+                                    ChessBoard.this.makeMove(lastclick, positions[7][1]);
+                                    ChessBoard.this.makeMove(clickedPosition, positions[7][2]);
+                                    clickedPosition.getOccupyingPiece().changeFirstTime();
+                                    lastclick.getOccupyingPiece().changeFirstTime();
+                                    castleI=1;
+                                    ChessBoard.this.src.changeColor();
+                                    ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
+                                    ChessBoard.this.firstClick = false;
+                                    ChessBoard.this.src = null;
+                                    ChessBoard.this.srcPossibleMoves = null;
+                                    ChessBoard.this.turns = ChessBoard.this.turns+1;
+
+
+                                }
+                                }
+                                if (rbCastle()) {
+                                    if ((clickedPosition.getX() == 7) && (clickedPosition.getY() == 7)) {
+                                        ChessBoard.this.deselectAll(positions[7][7]);
+                                        ChessBoard.this.deselectAll(positions[7][3]);
+
+                                        ChessBoard.this.makeMove(lastclick, positions[7][6]);
+                                        ChessBoard.this.makeMove(clickedPosition, positions[7][5]);
+                                        clickedPosition.getOccupyingPiece().changeFirstTime();
+                                        lastclick.getOccupyingPiece().changeFirstTime();
+                                        castleI=1;
+                                        ChessBoard.this.turns = ChessBoard.this.turns+1;
+                                        ChessBoard.this.src.changeColor();
+                                        ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
+                                        ChessBoard.this.firstClick = false;
+                                        ChessBoard.this.src = null;
+                                        ChessBoard.this.srcPossibleMoves = null;
+
+                                    }
+                                }
+                            }
+                        }
+
+
+
+
+                    if ((clickedPosition.getY()==ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getY()) & (clickedPosition.getX()==ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getX())){
+                        ChessBoard.this.firstClick = false;
+                        ChessBoard.this.deselectPosition(clickedPosition);
+                        var3 = ChessBoard.this.srcPossibleMoves.iterator();
+                        while (var3.hasNext()) {
+                            c = (Position) var3.next();
+                            ChessBoard.this.deselectPosition(c);
+                        }
+
+                    }
+                    else {
+
+                        var3 = ChessBoard.this.srcPossibleMoves.iterator();
+
+                        while (var3.hasNext()&& castleI==0) {
+                            c = (Position) var3.next();
+                            if (c.equals(clickedPosition)) {
+                                ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
+                                ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
+                                ChessBoard.this.src.changeColor();
+                                ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
+                                ChessBoard.this.firstClick = false;
+                                ChessBoard.this.src = null;
+                                ChessBoard.this.srcPossibleMoves = null;
+                                break;
+                            }
+
                         }
                     }
                 }
             } else if (ChessBoard.this.firstClick) {
                 var3 = ChessBoard.this.srcPossibleMoves.iterator();
 
-                while(var3.hasNext()) {
+                while(var3.hasNext()&& castleI==0) {
                     c = (Position)var3.next();
                     if (c.equals(clickedPosition)) {
+                        ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
                         ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
+                        ChessBoard.this.turns = ChessBoard.this.turns+1;
                         ChessBoard.this.src.changeColor();
                         ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
                         ChessBoard.this.firstClick = false;

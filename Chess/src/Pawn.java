@@ -6,11 +6,10 @@ import java.util.ArrayList;
 public class Pawn extends Piece {
 
     int direction;
-    boolean firstTime;
+    int firstTime;
 
     public Pawn(String color, Position position) {
         super(color, "pawn", position);
-
         if (color.equals("black"))
             direction = 1;
         else
@@ -18,6 +17,7 @@ public class Pawn extends Piece {
 
 
         this.position.setImage("pawn", color);
+        this.firstTime = 0;
 
     }
 
@@ -30,7 +30,9 @@ public class Pawn extends Piece {
         System.out.println("Position: X:" + x + " Y: " + y);
         Position[][] positions = position.getBoard().getPositions();
 
-        if ((x + direction) < 8 && (y - 1) >= 0 ) {
+
+
+        if ((x + direction) < 8 && (y - 1) >= 0 && (x+direction)>=0) {
             if (positions[x + direction][y - 1].getIsOccupied()) {
                 if (!positions[x + direction][y - 1].getOccupyingPiece().color.equals(color)) {
                     possibleMoves.add(positions[x+direction][y-1]);
@@ -39,7 +41,7 @@ public class Pawn extends Piece {
             }
         }
 
-        if ((x + direction) < 8 && (y + 1) >= 0 && (y+1)<8) {
+        if ((x + direction) < 8 && (y + 1) >= 0 && (y+1)<8 && (x+direction)>=0) {
             if (positions[x + direction][y + 1].getIsOccupied()) {
                 if (!positions[x + direction][y + 1].getOccupyingPiece().color.equals(color)) {
                     possibleMoves.add(positions[x + direction][y + 1]);
@@ -48,11 +50,18 @@ public class Pawn extends Piece {
             }
         }
 
-        if (x + direction < 8) {
+        if (x + direction < 8 && (x+direction)>=0) {
             if (!positions[x + direction][y].getIsOccupied()) {
                 possibleMoves.add(positions[x + direction][y]);
                 System.out.println("3");
             }
+        }
+
+        if (this.firstTime==0){
+                if((this.color.equals("white")) && (!positions[x+direction-1][y].getIsOccupied()))
+                possibleMoves.add(positions[x + direction-1][y]);
+                else if((this.color.equals("black")) && (!positions[x+direction+1][y].getIsOccupied()))
+                 possibleMoves.add(positions[x+direction+1][y]);
         }
 
         System.out.println("Possible Moves :");
@@ -62,5 +71,11 @@ public class Pawn extends Piece {
 
         return possibleMoves;
     }
+
+    public void changeFirstTime(){
+        this.firstTime = 1;
+    }
+
+
 }
 
