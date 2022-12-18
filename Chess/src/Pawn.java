@@ -57,7 +57,7 @@ public class Pawn extends Piece {
             }
         }
 
-        if (this.firstTime==0){
+        if ((this.firstTime==0)&&(possibleMoves.size()!=0)){
                 if((this.color.equals("white")) && (!positions[x+direction-1][y].getIsOccupied()))
                 possibleMoves.add(positions[x + direction-1][y]);
                 else if((this.color.equals("black")) && (!positions[x+direction+1][y].getIsOccupied()))
