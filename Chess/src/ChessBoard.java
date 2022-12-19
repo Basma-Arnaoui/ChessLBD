@@ -1,4 +1,5 @@
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -349,6 +350,7 @@ public class ChessBoard extends GridPane{
                         while (var3.hasNext()) {
                             c = (Position) var3.next();
                             if (c.equals(clickedPosition)) {
+                                if((clickedPosition.getIsOccupied()==true)&& (clickedPosition.getOccupyingPiece().getName().equals("king"))) Platform.exit();
                                 ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
                                 ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
                                 ChessBoard.this.src.changeColor();
@@ -370,6 +372,7 @@ public class ChessBoard extends GridPane{
                 while(var3.hasNext()&& castleI==0) {
                     c = (Position)var3.next();
                     if (c.equals(clickedPosition)) {
+                        if((clickedPosition.getIsOccupied()==true)&& (clickedPosition.getOccupyingPiece().getName().equals("king"))) Platform.exit();
                         ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
                         ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
                         if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
