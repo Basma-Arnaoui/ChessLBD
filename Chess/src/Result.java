@@ -22,7 +22,7 @@ public class Result extends Application {
         StackPane root = new StackPane();
         root.setId("pane");
         Scene scene = new Scene(root, 300, 200);
-        scene.getStylesheets().addAll(this.getClass().getResource("result.css").toExternalForm());
+        scene.getStylesheets().addAll(this.getClass().getResource("css/result.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
         /*// Create a vertical box layout to hold the result label

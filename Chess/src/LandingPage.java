@@ -26,10 +26,17 @@ public class LandingPage extends Application {
         primaryStage.setTitle("Chess Application");
 
         /* StackPane root = new StackPane();
+        root.setId("background");
+        Scene scene = new Scene(root, 600, 600);
+        scene.getStylesheets().addAll(this.getClass().getResource("css/landingpage.css").toExternalForm());
+        primaryStage.setScene(scene);
+        primaryStage.show(); */
+
+        /* StackPane root = new StackPane();
         Scene scene = new Scene(root, 650, 650);
         root.setStyle("-fx-background-image: url('images/chessboard.jpg'); -fx-background-repeat: no-repeat; -fx-background-size: 500 500; -fx-background-position: center center;");
         primaryStage.setScene(scene);
-        //primaryStage.show(); */
+        //primaryStage.show();  */
 
         // Create a label for the title
         Label titleLabel = new Label("Welcome to the Chess Application");
@@ -43,18 +50,24 @@ public class LandingPage extends Application {
 
         // Create a button for starting a new game
         Button newGameButton = new Button("Start New Game");
+        // Button ThemeButton = new Button("")
         newGameButton.setStyle("-fx-font-size: 24px; -fx-padding: 10px 25px; -fx-margin-top: 12px; -fx-font-weight: bold;");
         newGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                StackPane pane = new StackPane();
+                /* StackPane pane = new StackPane();
                 ChessBoard board = new ChessBoard();
                 pane.getChildren().add(board);
-                pane.setPrefSize(600,600);
+                pane.setPrefSize(1000,600);
                 pane.setAlignment(board, Pos.CENTER);
                 primaryStage.setScene(new Scene(pane));
                 primaryStage.show();
-                //primaryStage.setScene(new Scene(pane));
+                //primaryStage.setScene(new Scene(pane)); */
+                try {
+                    new TestDesign().start(primaryStage);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
