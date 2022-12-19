@@ -33,9 +33,6 @@ public class LandingPage extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Chess Application");
 
-        // Create a label for the title
-        /* Label titleLabel = new Label("Welcome to the Chess Application");
-        titleLabel.setStyle("-fx-color: #ffffff; -fx-font-size: 42px; -fx-font-weight: 800; -fx-position: absolute; -fx-top: 40; -fx-left: 25;"); */
         // Create the Text
         Text text = new Text("Welcome to Chess Game");
         text.setStyle("-fx-font-size: 50px; -fx-font-weight: 700;");
