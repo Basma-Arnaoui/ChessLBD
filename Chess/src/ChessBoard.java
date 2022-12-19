@@ -3,9 +3,13 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.layout.Region.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 import static javafx.scene.paint.Color.BROWN;
 import static javafx.scene.paint.Color.GOLD;
@@ -74,6 +78,28 @@ public class ChessBoard extends GridPane{
                 c.possiblePositions();
         }
     }
+
+    private void showAlertWithHeaderText(String color) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setHeaderText(color.toUpperCase(Locale.ROOT)+ "IS IN CHECK! MOVE YOUR KING");
+
+        alert.showAndWait();
+    }
+
+    public void isCheck(String color){
+          for(Position[] lpos : positions){
+            for (Position pos : lpos){
+                if ((pos.isOccupied == true)&&(!pos.getOccupyingPiece().getColor().equals(color))) {
+                    for (Position i : pos.getOccupyingPiece().possibleMoves()){
+                        if ((i.getIsOccupied()==true)&&(i.getOccupyingPiece().getName().equals("king")) ){
+                            showAlertWithHeaderText(color);
+                            i.setBackground(new Background(new BackgroundFill(Color.RED,null,null)));
+                        }
+                    }
+                }
+            }}
+    }
+
     public void deselectAll(Position cell){
         this.firstClick = false;
         cell.possiblePositions();;
@@ -183,6 +209,10 @@ public class ChessBoard extends GridPane{
     public GridPane board() {
         return this;
     }
+
+
+
+
     public boolean ltCastle(){
             if ((positions[0][1].getOccupyingPiece()==null)&&(positions[0][2].getOccupyingPiece()==null)&&(positions[0][3].getOccupyingPiece()==null)) return true;
             return false;
@@ -199,7 +229,6 @@ public class ChessBoard extends GridPane{
     }
     public boolean rbCastle(){
         if ((positions[7][6].getOccupyingPiece()==null)&&(positions[7][5].getOccupyingPiece()==null)) return true;
-        System.out.println("AAAAAAAAAA");
         return false;
     }
     public class ButtonHandler implements EventHandler<MouseEvent> {
@@ -207,15 +236,16 @@ public class ChessBoard extends GridPane{
         }
 
         public void handle(MouseEvent mouseEvent) {
+
             Position clickedPosition = (Position)mouseEvent.getSource();
             System.out.println("Position Row: " + clickedPosition.getX() + "Col " + clickedPosition.getY());
             Iterator var3;
             Position c;
             int castleI = 0;
 
-
             if ((clickedPosition.getIsOccupied()) && (((clickedPosition.getOccupyingPiece().getColor()=="black")&&(ChessBoard.this.turns%2==1)) || ((clickedPosition.getOccupyingPiece().getColor()=="white") && (ChessBoard.this.turns%2==0)))){
                 if (!ChessBoard.this.firstClick) {
+
                     ChessBoard.this.selectPosition(clickedPosition);
                     ChessBoard.this.clicks.add(clickedPosition);
                 }
@@ -233,6 +263,8 @@ public class ChessBoard extends GridPane{
                                         ChessBoard.this.makeMove(lastclick, positions[0][6]);
                                         ChessBoard.this.makeMove(clickedPosition, positions[0][5]);
                                         castleI=1;
+                                        if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
+                                        else ChessBoard.this.isCheck("black");
                                         ChessBoard.this.src.changeColor();
                                         ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
                                         ChessBoard.this.firstClick = false;
@@ -249,6 +281,8 @@ public class ChessBoard extends GridPane{
                                     lastclick.getOccupyingPiece().changeFirstTime();
                                     ChessBoard.this.makeMove(lastclick, positions[0][2]);
                                     ChessBoard.this.makeMove(clickedPosition, positions[0][3]);
+                                    if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
+                                    else ChessBoard.this.isCheck("black");
                                     castleI=1;
                                     ChessBoard.this.src.changeColor();
                                     ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
@@ -265,6 +299,8 @@ public class ChessBoard extends GridPane{
                                     lastclick.getOccupyingPiece().changeFirstTime();
                                     ChessBoard.this.makeMove(lastclick, positions[7][2]);
                                     ChessBoard.this.makeMove(clickedPosition, positions[7][3]);
+                                    if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
+                                    else ChessBoard.this.isCheck("black");
                                     castleI=1;
                                     ChessBoard.this.src.changeColor();
                                     ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
@@ -280,6 +316,8 @@ public class ChessBoard extends GridPane{
                                         lastclick.getOccupyingPiece().changeFirstTime();
                                         ChessBoard.this.makeMove(lastclick, positions[7][6]);
                                         ChessBoard.this.makeMove(clickedPosition, positions[7][5]);
+                                        if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
+                                        else ChessBoard.this.isCheck("black");
                                         castleI=1;
                                         ChessBoard.this.src.changeColor();
                                         ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
@@ -314,6 +352,8 @@ public class ChessBoard extends GridPane{
                                 ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
                                 ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
                                 ChessBoard.this.src.changeColor();
+                                if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
+                                else ChessBoard.this.isCheck("black");
                                 ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
                                 ChessBoard.this.firstClick = false;
                                 ChessBoard.this.src = null;
@@ -332,6 +372,8 @@ public class ChessBoard extends GridPane{
                     if (c.equals(clickedPosition)) {
                         ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
                         ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
+                        if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
+                        else ChessBoard.this.isCheck("black");
                         ChessBoard.this.turns = ChessBoard.this.turns+1;
                         ChessBoard.this.src.changeColor();
                         ChessBoard.this.resetColor(ChessBoard.this.srcPossibleMoves);
