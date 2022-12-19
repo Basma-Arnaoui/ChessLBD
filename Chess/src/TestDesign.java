@@ -18,7 +18,7 @@ public class TestDesign extends Application {
         StackPane pane = new StackPane();
         ChessBoard board = new ChessBoard();
         pane.getChildren().add(board);
-        pane.setPrefSize(1000,600);
+        pane.setPrefSize(1200,600);
         pane.setAlignment(board, Pos.CENTER);
         stage.setScene(new Scene(pane));
         stage.show();

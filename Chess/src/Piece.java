@@ -70,6 +70,5 @@ public abstract class Piece {
         this.position = position;
     }
 
-
 }
 
