@@ -14,10 +14,19 @@ public class TestDesign extends Application {
 
     private long startTime;
     private Label timerLabel;
+
+    protected static long elapsedTime;
     public static void main(String[] args) {
         //launch(args);
         Application.launch();
     }
+
+    public static String convertSecondsToMinutesSeconds(long seconds) {
+        long minutes = seconds / 60;
+        long remainingSeconds = seconds % 60;
+        return minutes + ":" + (remainingSeconds < 10 ? "0" : "") + remainingSeconds;
+    }
+
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -36,8 +45,8 @@ public class TestDesign extends Application {
         AnimationTimer timer = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
-                    long elapsedTime = (now - startTime) / 1000000000;
-                    timerLabel.setText("Time elapsed: " + elapsedTime + " seconds");
+                    elapsedTime = (now - startTime) / 1000000000;
+                    timerLabel.setText("Time elapsed: " + convertSecondsToMinutesSeconds(elapsedTime));
                 }
             };
             timer.start();

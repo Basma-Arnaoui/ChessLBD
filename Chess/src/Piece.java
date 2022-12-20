@@ -15,8 +15,6 @@ public abstract class Piece {
         this.position = pos;
         this.isAlive = true;
         this.firstTime = 0;
-
-
     }
     public abstract ArrayList<Position> possibleMoves();
      public void delete(){

@@ -48,8 +48,8 @@ public class LandingPage extends Application {
         // Set the Contrast of the image
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setContrast(0.1);
-        Effect imageEffect = colorAdjust;
-        background.setEffect(imageEffect);
+        // Effect imageEffect = colorAdjust;
+        background.setEffect(colorAdjust);
 
 
         // Create a button for starting a new game
@@ -87,6 +87,7 @@ public class LandingPage extends Application {
         themeButtons[0] = ClassicThemeCheckBox;
         themeButtons[1] = DarkThemeCheckBox;
         themeButtons[2] = SpecialThemeCheckBox;
+        // Set the first theme button as selected by default
         LandingPage.setTheme(themeButtons[0].getText());
 
 
@@ -104,8 +105,6 @@ public class LandingPage extends Application {
                 LandingPage.setTheme(themeButton.getText());
             });
         }
-
-
 
 
         // set theme
