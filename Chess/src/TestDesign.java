@@ -33,7 +33,7 @@ public class TestDesign extends Application {
         StackPane pane = new StackPane();
         ChessBoard board = new ChessBoard();
         pane.getChildren().add(board);
-        pane.setPrefSize(800,700);
+        pane.setPrefSize(810,750);
         pane.setAlignment(board, Pos.CENTER);
 
 
@@ -52,6 +52,25 @@ public class TestDesign extends Application {
             timer.start();
             pane.setAlignment(timerLabel, Pos.BOTTOM_LEFT);
             timerLabel.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: black; -fx-padding: 10px;");
+
+        // new Label of each game player
+
+        Label WhitePlayer = new Label();
+        Label BlackPlayer = new Label();
+        pane.getChildren().add(WhitePlayer);
+        pane.getChildren().add(BlackPlayer);
+
+        BlackPlayer.setStyle("-fx-font-size: 24pt;-fx-color:White; -fx-font-weight: bold; -fx-background-color: Black; -fx-padding: 12px;");
+        WhitePlayer.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: White; -fx-padding: 12px;");
+
+        pane.setAlignment(BlackPlayer,Pos.TOP_RIGHT);
+        WhitePlayer.setTranslateY(190);
+        WhitePlayer.setTranslateX(310);
+
+        BlackPlayer.setText("Black Player");
+        WhitePlayer.setText("White Player");
+
+
 
 
         stage.setScene(new Scene(pane));
