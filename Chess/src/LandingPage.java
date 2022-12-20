@@ -47,7 +47,7 @@ public class LandingPage extends Application {
         background.setFitHeight(1000);
         // Set the Contrast of the image
         ColorAdjust colorAdjust = new ColorAdjust();
-        colorAdjust.setContrast(0.15);
+        colorAdjust.setContrast(0.1);
         Effect imageEffect = colorAdjust;
         background.setEffect(imageEffect);
 
@@ -87,7 +87,7 @@ public class LandingPage extends Application {
         themeButtons[0] = ClassicThemeCheckBox;
         themeButtons[1] = DarkThemeCheckBox;
         themeButtons[2] = SpecialThemeCheckBox;
-
+        LandingPage.setTheme(themeButtons[0].getText());
 
 
         // Add click event to all themes

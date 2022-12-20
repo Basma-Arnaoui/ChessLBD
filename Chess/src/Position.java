@@ -5,6 +5,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Region.*;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 
 import javafx.scene.layout.BackgroundFill;
@@ -32,9 +33,11 @@ public class Position extends Button{
     }
     public void setColor()
     {
-        Color[] Classic = {BROWN,WHITESMOKE};
+        Color brown = new Color(128/ 255.0, 64 / 255.0, 0 / 255.0, 1.0);
+        Color darkGrey = new Color(51 / 255.0, 51 / 255.0, 51 / 255.0, 0.80);
+        Color[] Classic = {brown ,LIGHTGOLDENRODYELLOW};
         Color[] Special = {BROWN,YELLOW};
-        Color[] Dark = {DARKBLUE,WHITE};
+        Color[] Dark = {darkGrey,WHITE};
         if (this.theme.equals("Classic"))
         {
             if ((x+y)%2 == 0){
