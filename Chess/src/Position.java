@@ -8,8 +8,10 @@ import javafx.scene.layout.StackPane;
 
 
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import static javafx.scene.paint.Color.*;
 public class Position extends Button{
@@ -17,19 +19,49 @@ public class Position extends Button{
     int x,y;
     boolean isOccupied;
     Piece occupyingPiece;
+    String theme;
 
     public Position(int x, int y, ChessBoard board){
         this.x = x;
         this.y = y;
-        if ((x+y)%2 == 0){
-            this.setBackground(new Background(new BackgroundFill(GOLD,null,null)));;
-        }
-        else {
-            this.setBackground(new Background(new BackgroundFill(BROWN,null,null)));;
-        }
         occupyingPiece = null;
         isOccupied = false;
         this.board = board;
+        this.theme = LandingPage.Theme;
+        this.setColor();
+    }
+    public void setColor()
+    {
+        Color[] Classic = {BROWN,WHITESMOKE};
+        Color[] Special = {BROWN,YELLOW};
+        Color[] Dark = {DARKBLUE,WHITE};
+        if (this.theme.equals("Classic"))
+        {
+            if ((x+y)%2 == 0){
+                this.setBackground(new Background(new BackgroundFill(Classic[0], null,null)));;
+            }
+            else {
+                this.setBackground(new Background(new BackgroundFill(Classic[1],null,null)));;
+            }
+        }
+        if (this.theme.equals("Special"))
+        {
+            if ((this.x+this.y)%2 == 0){
+                this.setBackground(new Background(new BackgroundFill(Special[0], null,null)));;
+            }
+            else {
+                this.setBackground(new Background(new BackgroundFill(Special[1],null,null)));;
+            }
+        }
+        if (this.theme.equals("Dark"))
+        {
+            if ((this.x+this.y)%2 == 0){
+                this.setBackground(new Background(new BackgroundFill(Dark[0], null,null)));;
+            }
+            else {
+                this.setBackground(new Background(new BackgroundFill(Dark[1],null,null)));;
+            }
+        }
     }
     public Piece getOccupyingPiece(){
         return this.occupyingPiece;
@@ -50,12 +82,7 @@ public class Position extends Button{
     }
 
     public void changeColor(){
-        if ((x + y)%2==0){
-            this.setBackground(new Background(new BackgroundFill(GOLD,null,null)));
-        }
-        else{
-            this.setBackground(new Background(new BackgroundFill(BROWN,null,null)));
-        }
+        this.setColor();
     }
     public void possiblePositions(){
         this.setBackground(new Background(new BackgroundFill(LIGHTBLUE, null, null)));
@@ -94,6 +121,7 @@ public class Position extends Button{
         this.setGraphic(new Image().getImage(n, col));
     }
 
-
-
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
 }

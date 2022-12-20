@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 
-import static javafx.scene.paint.Color.BROWN;
-import static javafx.scene.paint.Color.GOLD;
+import static javafx.scene.paint.Color.*;
 
 public class ChessBoard extends GridPane{
 
@@ -24,6 +23,8 @@ public class ChessBoard extends GridPane{
     protected Position src;
     protected int turns;
     protected boolean firstClick;
+
+
 
     public ChessBoard() {
 
@@ -65,6 +66,8 @@ public class ChessBoard extends GridPane{
 
         this.firstClick = false;
 
+
+
     }
 
 
@@ -82,7 +85,7 @@ public class ChessBoard extends GridPane{
     }
 
     private void showAlertWithHeaderText(String color) {
-        Alert alert = new Alert(AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(color.toUpperCase(Locale.ROOT)+ "IS IN CHECK! MOVE YOUR KING");
 
         alert.showAndWait();
@@ -112,10 +115,7 @@ public class ChessBoard extends GridPane{
 
     }
     void deselectPosition(Position cell){
-        int x = cell.getY()+cell.getX();
-        if(x%2==0) cell.setBackground(new Background(new BackgroundFill(GOLD,null,null)));
-        else cell.setBackground(new Background(new BackgroundFill(BROWN,null,null)));;
-
+        cell.setColor();
 
     }
     void makeMove(Position src,Position dest){
@@ -146,7 +146,7 @@ public class ChessBoard extends GridPane{
 
     void resetColor(ArrayList<Position> resetPositions){
         for(Position c:resetPositions){
-            c.changeColor();
+            c.setColor();
         }
 
 

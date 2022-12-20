@@ -25,6 +25,8 @@ import javafx.scene.control.Labeled;
 import java.util.Stack;
 
 public class LandingPage extends Application {
+    static String Theme;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -86,6 +88,8 @@ public class LandingPage extends Application {
         themeButtons[1] = DarkThemeCheckBox;
         themeButtons[2] = SpecialThemeCheckBox;
 
+
+
         // Add click event to all themes
         for (RadioButton themeButton: themeButtons) {
             themeButton.setOnAction(event -> {
@@ -97,8 +101,15 @@ public class LandingPage extends Application {
                 }
                 // Select the current radio button
                 themeButton.setSelected(true);
+                LandingPage.setTheme(themeButton.getText());
             });
         }
+
+
+
+
+        // set theme
+        //LandingPage.setTheme(this.getSelected(themeButtons));
 
 
         // Create a Horizontal Box to hold the buttons
@@ -119,5 +130,13 @@ public class LandingPage extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-}
 
+
+    public static void setTheme(String Theme) {
+        LandingPage.Theme = Theme;
+    }
+
+    public String getTheme() {
+        return Theme;
+    }
+}
