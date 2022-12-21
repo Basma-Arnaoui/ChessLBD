@@ -1,3 +1,6 @@
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -12,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.HBox;
-
+import java.lang.RuntimeException;
 
 import java.awt.*;
 import java.util.Locale;
@@ -23,23 +26,26 @@ public class Result extends Application {
         launch(args);
     }
 
-
-    public void start(Stage stage, String color) {
+    @Override
+    public void start(Stage stage) {
         // Mohieddine Code
 
-        //
-        Label titleLabel = new Label("The " + ChessBoard.winner + " won the game !");
-        titleLabel.setStyle("-fx-font-size: 50px; -fx-font-weight: 700;");
-        titleLabel.setTextFill(Color.WHITE);
-        titleLabel.setTranslateY(-150);
-
-        Label timeElapsedLabel = new Label("Time elapsed: " + TestDesign.convertSecondsToMinutesSeconds(TestDesign.elapsedTime));
-        timeElapsedLabel.setStyle("-fx-padding: 15px 25px; -fx-background-color: white; -fx-font-weight: 800; -fx-font-size: 34px;");
         // Setting the background image
         Image endGameImage = new Image("images/endgame.jpg");
         ImageView background = new ImageView(endGameImage);
         background.setFitWidth(1000);
         background.setFitHeight(1000);
+
+        // Announce the winner of the game
+        Label titleLabel = new Label("The " + ChessBoard.winner + " won the game !");
+        titleLabel.setStyle("-fx-font-size: 27pt; -fx-font-weight: 700;");
+        titleLabel.setTextFill(Color.WHITE);
+        titleLabel.setTranslateY(65);
+
+        // Set the duration of the game
+        Label timeElapsedLabel = new Label("Time Elapsed: " + TestDesign.convertSecondsToMinutesSeconds(TestDesign.elapsedTime));
+        timeElapsedLabel.setStyle("-fx-text-fill: white; -fx-padding: 15px 25px; -fx-background-color: transparent; -fx-font-weight: 800; -fx-font-size: 30pt; -fx-border-radius: 10px;");
+        timeElapsedLabel.setTranslateY(45);
 
         // Set the Contrast of the image
         ColorAdjust colorAdjust = new ColorAdjust();
@@ -49,51 +55,40 @@ public class Result extends Application {
 
         // Restarting a Game button
         Button restartGameButton = new Button("Restart Game");
-        // restartGameButton.getScene().getStylesheets().add("css/restart-btn.css");
         restartGameButton.setStyle("-fx-style-sheet: url('css/restart-btn.css')");
+        restartGameButton.setTranslateY(-200);
+        restartGameButton.setPadding(new Insets(10, 30, 10, 30));
+        restartGameButton.setStyle("-fx-text-fill: black; -fx-background-color: grey; -fx-font-size: 32pt; -fx-font-weight: 800; -fx-border-style: solid; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 8px");
+        restartGameButton.setOpacity(0.6);
 
+
+        restartGameButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    new LandingPage().start(new Stage());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         // Create a Horizontal Box for elapsed time and restart game
-        HBox box = new HBox(timeElapsedLabel, restartGameButton);
-        box.setAlignment(Pos.CENTER);
-        box.setSpacing(120);
+        HBox box = new HBox(titleLabel, timeElapsedLabel);
+        box.setAlignment(Pos.TOP_CENTER);
+        box.setSpacing(40);
         box.setTranslateY(100);
 
-        StackPane root = new StackPane(background, titleLabel, box);
+        StackPane root = new StackPane(background, box, restartGameButton);
         Scene scene =  new Scene(root, 1000, 1000);
-        // scene.getStylesheets().add("css/restart-btn.css");
 
         // Show the final window
         stage.setScene(scene);
         stage.show();
-
-        // Basma code
-        /*
-        // Create a label to display the result of the chess game
-        Label resultLabel = new Label();
-        resultLabel.setText(color.toUpperCase(Locale.ROOT)+" WON THE GAME!");
-        resultLabel.setStyle("-fx-font-size : 20px; -fx-color : rgb(256,0,0); -fx- text-align : center; -fx-background-image : url(result.jpeg);");
-
-        StackPane root = new StackPane();
-        root.setId("pane");
-        Scene scene = new Scene(root, 800, 1000);
-        scene.getStylesheets().addAll(this.getClass().getResource("result.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-
-
-        // Create a vertical box layout to hold the result label
-        VBox root = new VBox();
-        root.getChildren().add(resultLabel);
-
-        // Set the scene and show the stage
-        Scene scene = new Scene(root, 400, 400);
-        stage.setScene(scene);
-        stage.show();
-        */
     }
 
+    /*
     @Override
     public void start(Stage stage) throws Exception {
-
     }
+     */
 }

@@ -350,7 +350,7 @@ public class ChessBoard extends GridPane{
                         while (var3.hasNext()) {
                             c = (Position) var3.next();
                             if (c.equals(clickedPosition)) {
-                                if((clickedPosition.getIsOccupied()==true)&& (clickedPosition.getOccupyingPiece().getName().equals("king"))){ new Result().start(new Stage(),clickedPosition.getOccupyingPiece().getColor());
+                                if((clickedPosition.getIsOccupied()==true)&& (clickedPosition.getOccupyingPiece().getName().equals("king"))){ new Result().start(new Stage());
                                     new java.util.Timer().schedule(
                                             new java.util.TimerTask() {
                                                 @Override
@@ -388,7 +388,7 @@ public class ChessBoard extends GridPane{
                             else {
                                 ChessBoard.winner = "Black";
                             }
-                            new Result().start(new Stage(),clickedPosition.getOccupyingPiece().getColor());
+                            new Result().start(new Stage());
                             new java.util.Timer().schedule(
                                     new java.util.TimerTask() {
                                         @Override
