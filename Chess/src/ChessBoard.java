@@ -64,9 +64,6 @@ public class ChessBoard extends GridPane{
         addPieces();
 
         this.firstClick = false;
-
-
-
     }
 
 
