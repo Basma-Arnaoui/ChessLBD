@@ -1,6 +1,7 @@
 
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.layout.Region.*;
@@ -254,6 +255,9 @@ public class ChessBoard extends GridPane{
                     else{
 
                         Position lastclick = ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1);
+
+
+
                         if ((lastclick.getOccupyingPiece().getName().equals("king"))&&(clickedPosition.getOccupyingPiece().getName().equals("rook"))){
                             if((lastclick.getOccupyingPiece().getFirstTime()==0)&&(clickedPosition.getOccupyingPiece().getFirstTime()==0)){
                                 if ((clickedPosition.getX() == 0) && (clickedPosition.getY() == 7)) {
@@ -358,7 +362,7 @@ public class ChessBoard extends GridPane{
                                                     Platform.exit();
                                                 }
                                             },
-                                            5000
+                                            10000
                                     );
                                 }                                ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
                                 ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
@@ -377,6 +381,18 @@ public class ChessBoard extends GridPane{
                 }
             } else if (ChessBoard.this.firstClick) {
                 var3 = ChessBoard.this.srcPossibleMoves.iterator();
+                Position lastclick = ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1);
+                boolean didpass = false;
+                if (lastclick.getOccupyingPiece().getName().equals("pawn")) {
+                    if ((lastclick.getOccupyingPiece().canbeenpassed(lastclick.getOccupyingPiece().possibleMoves()) != null) && (lastclick.getOccupyingPiece().canbeenpassed(lastclick.getOccupyingPiece().possibleMoves()).getX() == clickedPosition.getX()) && (lastclick.getOccupyingPiece().canbeenpassed(lastclick.getOccupyingPiece().possibleMoves()).getY() == clickedPosition.getY())) {
+                        ChessBoard.this.positions[lastclick.getX()][clickedPosition.getY()].setGraphic(null);
+                        ChessBoard.this.positions[lastclick.getX()][clickedPosition.getY()].occupyingPiece = null;
+                        ChessBoard.this.positions[lastclick.getX()][clickedPosition.getY()].isOccupied = false;
+                        ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
+                        ChessBoard.this.makeMove(lastclick, clickedPosition);
+                        didpass = true;
+                    }
+                }
 
                 while(var3.hasNext()&& castleI==0) {
                     c = (Position)var3.next();
@@ -399,8 +415,9 @@ public class ChessBoard extends GridPane{
                                     5000
                             );
                             }
+                        if (didpass==false){
                         ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
-                        ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
+                        ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);}
                         if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
                         else ChessBoard.this.isCheck("black");
                         ChessBoard.this.turns = ChessBoard.this.turns+1;

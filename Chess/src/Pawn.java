@@ -7,6 +7,7 @@ public class Pawn extends Piece {
 
     int direction;
     int firstTime;
+    int side;
 
     public Pawn(String color, Position position) {
         super(color, "pawn", position);
@@ -18,6 +19,8 @@ public class Pawn extends Piece {
 
         this.position.setImage("pawn", color);
         this.firstTime = 0;
+        this.side = 0;
+
 
     }
 
@@ -64,6 +67,8 @@ public class Pawn extends Piece {
                  possibleMoves.add(positions[x+direction+1][y]);
         }
 
+        this.canbeenpassed(possibleMoves);
+
         System.out.println("Possible Moves :");
         for (Position c : possibleMoves) {
             System.out.print(c.getX() + "" + c.getY());
@@ -74,6 +79,38 @@ public class Pawn extends Piece {
 
     public void changeFirstTime(){
         this.firstTime = 1;
+    }
+    public int getSide(){
+        return this.side;
+    }
+    public Position canbeenpassed(ArrayList<Position> possibleMoves){
+
+        if (this.color.equals("black")) {
+            if ((this.position.getX() == 4) &&(this.position.getY()+1<8)&& (position.getBoard().positions[4][this.position.getY()+1].getIsOccupied())&&(position.getBoard().positions[4][this.position.getY()+1].getOccupyingPiece().getColor().equals("white"))){
+                possibleMoves.add(position.getBoard().positions[5][this.position.getY()+1]);
+                return position.getBoard().positions[5][this.position.getY()+1];
+
+            }
+            if ((this.position.getX() == 4) &&(this.position.getY()-1>=0) &&(position.getBoard().positions[4][this.position.getY()-1].getIsOccupied())&&(position.getBoard().positions[4][this.position.getY()-1].getOccupyingPiece().getColor().equals("white"))){
+                possibleMoves.add(position.getBoard().positions[5][this.position.getY()-1]);
+                return position.getBoard().positions[5][this.position.getY()-1];
+
+            }
+
+        }
+        if (this.color == "white") {
+            if ((this.position.getX() == 3) &&(this.position.getY()+1<8)&& (position.getBoard().positions[3][this.position.getY()+1].getIsOccupied())&&(position.getBoard().positions[3][this.position.getY()+1].getOccupyingPiece().getColor().equals("black"))){
+                possibleMoves.add(position.getBoard().positions[2][this.position.getY()+1]);
+                return position.getBoard().positions[2][this.position.getY()+1];
+
+            }
+            if ((this.position.getX() == 3) &&(this.position.getY()-1>=0) &&(position.getBoard().positions[3][this.position.getY()-1].getIsOccupied())&&(position.getBoard().positions[3][this.position.getY()-1].getOccupyingPiece().getColor().equals("black"))){
+                possibleMoves.add(position.getBoard().positions[2][this.position.getY()-1]);
+                return position.getBoard().positions[2][this.position.getY()-1];
+            }
+
+        }
+    return null;
     }
 
 
