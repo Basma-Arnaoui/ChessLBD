@@ -5,20 +5,16 @@ import javafx.geometry.Pos;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.effect.Effect;
 import javafx.application.Application;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.HBox;
 import java.lang.RuntimeException;
 
-import java.awt.*;
-import java.util.Locale;
 
 public class Result extends Application {
     public ChessBoard board;
@@ -66,7 +62,7 @@ public class Result extends Application {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    new LandingPage().start(new Stage());
+                    new TestDesign().start(new Stage());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -86,9 +82,5 @@ public class Result extends Application {
         stage.show();
     }
 
-    /*
-    @Override
-    public void start(Stage stage) throws Exception {
-    }
-     */
+
 }
