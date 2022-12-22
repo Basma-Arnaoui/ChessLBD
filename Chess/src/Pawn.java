@@ -1,4 +1,5 @@
 
+import javafx.scene.PointLight;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
@@ -83,17 +84,17 @@ public class Pawn extends Piece {
     public int getSide(){
         return this.side;
     }
-    public Position canbeenpassed(ArrayList<Position> possibleMoves){
-
+    public ArrayList<Position> canbeenpassed(ArrayList<Position> possibleMoves){
+        ArrayList<Position> passList = new ArrayList<Position>();
         if (this.color.equals("black")) {
             if ((this.position.getX() == 4) &&(this.position.getY()+1<8)&& (position.getBoard().positions[4][this.position.getY()+1].getIsOccupied())&&(position.getBoard().positions[4][this.position.getY()+1].getOccupyingPiece().getColor().equals("white"))){
                 possibleMoves.add(position.getBoard().positions[5][this.position.getY()+1]);
-                return position.getBoard().positions[5][this.position.getY()+1];
+                passList.add(position.getBoard().positions[5][this.position.getY()+1]);
 
             }
             if ((this.position.getX() == 4) &&(this.position.getY()-1>=0) &&(position.getBoard().positions[4][this.position.getY()-1].getIsOccupied())&&(position.getBoard().positions[4][this.position.getY()-1].getOccupyingPiece().getColor().equals("white"))){
                 possibleMoves.add(position.getBoard().positions[5][this.position.getY()-1]);
-                return position.getBoard().positions[5][this.position.getY()-1];
+                passList.add(position.getBoard().positions[5][this.position.getY()-1]);
 
             }
 
@@ -101,16 +102,15 @@ public class Pawn extends Piece {
         if (this.color == "white") {
             if ((this.position.getX() == 3) &&(this.position.getY()+1<8)&& (position.getBoard().positions[3][this.position.getY()+1].getIsOccupied())&&(position.getBoard().positions[3][this.position.getY()+1].getOccupyingPiece().getColor().equals("black"))){
                 possibleMoves.add(position.getBoard().positions[2][this.position.getY()+1]);
-                return position.getBoard().positions[2][this.position.getY()+1];
-
+                passList.add(position.getBoard().positions[2][this.position.getY()+1]);
             }
             if ((this.position.getX() == 3) &&(this.position.getY()-1>=0) &&(position.getBoard().positions[3][this.position.getY()-1].getIsOccupied())&&(position.getBoard().positions[3][this.position.getY()-1].getOccupyingPiece().getColor().equals("black"))){
                 possibleMoves.add(position.getBoard().positions[2][this.position.getY()-1]);
-                return position.getBoard().positions[2][this.position.getY()-1];
+                passList.add(position.getBoard().positions[2][this.position.getY()-1]);
             }
 
         }
-    return null;
+    return passList;
     }
 
 

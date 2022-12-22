@@ -72,6 +72,6 @@ public abstract class Piece {
     public void setPosition(Position position) {
         this.position = position;
     }
-    public Position canbeenpassed(ArrayList<Position> a){return null;}
+    public ArrayList<Position> canbeenpassed(ArrayList<Position> a){return null;}
 }
 
