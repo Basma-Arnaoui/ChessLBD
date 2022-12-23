@@ -113,6 +113,16 @@ public class Pawn extends Piece {
     return passList;
     }
 
+    public boolean canbepromoted(){
+        if( (this.color=="black") &&(this.position.getX()==7)){
+            return true;
+        }
+        else if ((this.color=="white")&&(this.position.getX()==0)){
+            return true;
+        }
+        return false;
+    }
+
 
 }
 

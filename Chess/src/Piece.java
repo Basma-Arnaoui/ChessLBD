@@ -73,5 +73,9 @@ public abstract class Piece {
         this.position = position;
     }
     public ArrayList<Position> canbeenpassed(ArrayList<Position> a){return null;}
+
+    public boolean canbepromoted(){
+         return false;
+    }
 }
 

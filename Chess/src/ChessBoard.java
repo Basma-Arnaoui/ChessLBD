@@ -1,19 +1,19 @@
 
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.layout.Region.*;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
+import javafx.scene.control.ButtonBar.ButtonData;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
-
+import java.util.Optional;
 import static javafx.scene.paint.Color.*;
 
 public class ChessBoard extends GridPane{
@@ -87,6 +87,71 @@ public class ChessBoard extends GridPane{
 
         alert.showAndWait();
     }
+    private String promoAlert(String color){
+
+        /*final ToggleGroup group = new ToggleGroup();
+        RadioButton rb1 = new RadioButton("Queen");
+        ImageView im1 = new Image().getImage("queen",color);
+        rb1.setGraphic(new ImageView(im1.getImage()));
+        rb1.setToggleGroup(group);
+        rb1.setSelected(true);
+
+
+        RadioButton rb2 = new RadioButton("Bishop");
+        rb2.setToggleGroup(group);
+        ImageView im2 = new Image().getImage("bishop",color);
+        rb2.setGraphic(new ImageView(im2.getImage()));
+
+        RadioButton rb3 = new RadioButton("Rook");
+        rb3.setToggleGroup(group);
+        ImageView im3 = new Image().getImage("rook",color);
+        rb3.setGraphic(new ImageView(im3.getImage()));
+
+        RadioButton rb4 = new RadioButton("Knight");
+        rb4.setToggleGroup(group);
+        ImageView im4 = new Image().getImage("knight",color);
+        rb4.setGraphic(new ImageView(im4.getImage()));
+        final String[] selected = {new String()};
+        Button button= new Button("Choose");
+        button.setOnAction(e ->
+                {
+                    if (rb1.isSelected())
+                        selected[0] = "queen";
+                    else if(rb2.isSelected())
+                        selected[0] = "bishop";
+                    else if(rb3.isSelected())
+                        selected[0] = "rook";
+                    else selected[0] = "knight";
+                }
+        );*/
+        final String[] selected = {new String()};
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Dialog with Custom Actions");
+        alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
+        alert.setContentText("Choose your option.");
+
+        ButtonType buttonTypeQ = new ButtonType("Queen");
+        ButtonType buttonTypeB = new ButtonType("Bishop");
+        ButtonType buttonTypeR = new ButtonType("Rook");
+        ButtonType buttonTypeK = new ButtonType("Knight");
+
+
+        alert.getButtonTypes().setAll(buttonTypeQ, buttonTypeB, buttonTypeR, buttonTypeK);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeQ){
+            selected[0] = "queen";
+        } else if (result.get() == buttonTypeB) {
+            selected[0] = "bishop";
+        } else if (result.get() == buttonTypeR) {
+            selected[0] = "rook";
+        } else if(result.get() == buttonTypeK){
+            selected[0] = "knight";
+        }
+        else selected[0] = "queen";
+        return selected[0];
+
+    }
 
     public void isCheck(String color){
           for(Position[] lpos : positions){
@@ -104,7 +169,7 @@ public class ChessBoard extends GridPane{
 
     public void deselectAll(Position cell){
         this.firstClick = false;
-        cell.possiblePositions();;
+        cell.possiblePositions();
         ArrayList<Position> srcPM = cell.getOccupyingPiece().possibleMoves();
         for (Position c:srcPM){
             this.deselectPosition(c);
@@ -247,6 +312,10 @@ public class ChessBoard extends GridPane{
 
                     ChessBoard.this.selectPosition(clickedPosition);
                     ChessBoard.this.clicks.add(clickedPosition);
+                    if(clickedPosition.getOccupyingPiece().canbepromoted()){
+
+                    }
+
                 }
 
                     else{
@@ -434,6 +503,23 @@ public class ChessBoard extends GridPane{
                 }
             }
 
+            if ((clickedPosition.getIsOccupied())&&(clickedPosition.getOccupyingPiece().getName().equals("pawn"))){
+                System.out.println("HA LCONDITION LWLA");
+                if (clickedPosition.getOccupyingPiece().canbepromoted()){
+                    System.out.println("HA LCONDITION TANIA");
+
+                    ChessBoard.this.promoAlert(clickedPosition.getOccupyingPiece().getColor());
+                    clickedPosition.getOccupyingPiece().setPosition(null);
+                    clickedPosition.getOccupyingPiece().setAlive(false);
+                    clickedPosition.getOccupyingPiece().delete();
+                    String to = ChessBoard.this.promoAlert(clickedPosition.getOccupyingPiece().getColor());
+                    if (to.equals("queen"))   positions[clickedPosition.getX()][clickedPosition.getY()].addPiece(new Queen(clickedPosition.getOccupyingPiece().getColor(),positions[clickedPosition.getX()][clickedPosition.getY()]));
+                    else if (to.equals("bishop"))   positions[clickedPosition.getX()][clickedPosition.getY()].addPiece(new Bishop(clickedPosition.getOccupyingPiece().getColor(),positions[clickedPosition.getX()][clickedPosition.getY()]));
+                    else if (to.equals("rook"))   positions[clickedPosition.getX()][clickedPosition.getY()].addPiece(new Rook(clickedPosition.getOccupyingPiece().getColor(),positions[clickedPosition.getX()][clickedPosition.getY()]));
+                    else if (to.equals("knight"))   positions[clickedPosition.getX()][clickedPosition.getY()].addPiece(new Knight(clickedPosition.getOccupyingPiece().getColor(),positions[clickedPosition.getX()][clickedPosition.getY()]));
+
+                }
+            }
         }
     }
 }
