@@ -36,7 +36,7 @@ public class Position extends Button{
         Color brown = new Color(128/ 255.0, 64 / 255.0, 0 / 255.0, 1.0);
         Color darkGrey = new Color(51 / 255.0, 51 / 255.0, 51 / 255.0, 0.80);
         Color[] Classic = {brown ,LIGHTGOLDENRODYELLOW};
-        Color[] Special = {BROWN,YELLOW};
+        Color[] Special = {BROWN,BEIGE};
         Color[] Dark = {darkGrey,WHITE};
         if (this.theme.equals("Classic"))
         {
