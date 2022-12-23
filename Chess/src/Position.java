@@ -33,7 +33,7 @@ public class Position extends Button{
     }
     public void setColor()
     {
-        Color brown = new Color(128/ 255.0, 64 / 255.0, 0 / 255.0, 1.0);
+        Color brown = new Color(109/ 255.0, 103 / 255.0, 110 / 255.0, 1.0);
         Color darkGrey = new Color(51 / 255.0, 51 / 255.0, 51 / 255.0, 0.80);
         Color[] Classic = {brown ,LIGHTGOLDENRODYELLOW};
         Color[] Special = {BROWN,BEIGE};

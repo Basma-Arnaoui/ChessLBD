@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
+import javafx.scene.control.TextField;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.Label;
 
@@ -51,7 +51,7 @@ public class TestDesign extends Application {
             };
             timer.start();
             pane.setAlignment(timerLabel, Pos.BOTTOM_LEFT);
-            timerLabel.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: black; -fx-padding: 10px;");
+            timerLabel.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: rgb(20,106,141); -fx-padding: 10px;-fx-text-fill:rgb(223,233,185);");
 
         // new Label of each game player
 
@@ -60,11 +60,11 @@ public class TestDesign extends Application {
         pane.getChildren().add(WhitePlayer);
         pane.getChildren().add(BlackPlayer);
 
-        BlackPlayer.setStyle("-fx-font-size: 24pt;-fx-color:White; -fx-font-weight: bold; -fx-background-color: Black; -fx-padding: 12px;");
+        BlackPlayer.setStyle("-fx-font-size: 24pt;-fx-text-fill:White; -fx-font-weight: bold; -fx-background-color: Black; -fx-padding: 12px;");
         WhitePlayer.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: White; -fx-padding: 12px;");
 
         pane.setAlignment(BlackPlayer,Pos.TOP_RIGHT);
-        pane.setStyle("-fx-background-color : Bisque;");
+        pane.setStyle("-fx-background-color : rgb(109,103,110);");
         WhitePlayer.setTranslateY(190);
         WhitePlayer.setTranslateX(310);
 
@@ -183,6 +183,12 @@ public class TestDesign extends Application {
         hh.setStyle("-fx-font-size : 20pt; -fx-color : Beige;");
         hh.setTranslateX(205);
         hh.setTranslateY(215);
+
+        TextField userTextField = new TextField();
+        userTextField.setPrefWidth(600);
+        userTextField.setStyle("-fx-background-color : Black;");
+        stage.setScene(new Scene(userTextField));
+
 
 
 
