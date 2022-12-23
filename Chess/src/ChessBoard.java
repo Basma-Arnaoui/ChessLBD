@@ -126,9 +126,8 @@ public class ChessBoard extends GridPane{
         );*/
         final String[] selected = {new String()};
         Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Dialog with Custom Actions");
-        alert.setHeaderText("Look, a Confirmation Dialog with Custom Actions");
-        alert.setContentText("Choose your option.");
+        alert.setTitle("PAWN PROMOTION");
+        alert.setContentText("Choose your option:");
 
         ButtonType buttonTypeQ = new ButtonType("Queen");
         ButtonType buttonTypeB = new ButtonType("Bishop");
@@ -137,6 +136,14 @@ public class ChessBoard extends GridPane{
 
 
         alert.getButtonTypes().setAll(buttonTypeQ, buttonTypeB, buttonTypeR, buttonTypeK);
+        /*ImageView im1 = new Image().getImage("queen",color);
+        alert.setGraphic(new ImageView(im1.getImage()));
+        ImageView im2 = new Image().getImage("bishop",color);
+        alert.setGraphic(new ImageView(im2.getImage()));
+        ImageView im3 = new Image().getImage("rook",color);
+        alert.setGraphic(new ImageView(im3.getImage()));
+        ImageView im4 = new Image().getImage("knight",color);
+        alert.setGraphic(new ImageView(im4.getImage()));*/
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeQ){
@@ -489,9 +496,7 @@ public class ChessBoard extends GridPane{
             }
 
             if ((clickedPosition.getIsOccupied())&&(clickedPosition.getOccupyingPiece().getName().equals("pawn"))){
-                System.out.println("HA LCONDITION LWLA");
                 if (clickedPosition.getOccupyingPiece().canbepromoted()){
-                    System.out.println("HA LCONDITION TANIA");
 
                     ChessBoard.this.promoAlert(clickedPosition.getOccupyingPiece().getColor());
                     clickedPosition.getOccupyingPiece().setPosition(null);
