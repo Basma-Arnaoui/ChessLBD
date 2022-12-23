@@ -112,7 +112,7 @@ public class LandingPage extends Application {
         // Create a time button
         MenuButton menuButton = new MenuButton("Duration");
         MenuItem Item1 = new MenuItem("1");
-        MenuItem Item2 = new MenuItem("10");
+        MenuItem Item2 = new MenuItem("2");
         MenuItem Item3 = new MenuItem("15");
         MenuItem Item4 = new MenuItem("20");
         MenuItem Item5 = new MenuItem("25");
@@ -127,12 +127,12 @@ public class LandingPage extends Application {
             {
                 selectedOption[0] = ((MenuItem)e.getSource()).getText() ;
                 menuButton.setText(selectedOption[0]);
+                LandingPage.setDuration(Integer.parseInt(selectedOption[0]));
                 //Label lab = new Label("The time for each player will be "+selectedOption[0]+" min.");
             }
-
         };
 
-        // add action events to the menuitems
+        // add action events to the menu items
         Item1.setOnAction(event1);
         Item2.setOnAction(event1);
         Item3.setOnAction(event1);
@@ -140,11 +140,8 @@ public class LandingPage extends Application {
         Item5.setOnAction(event1);
         Item6.setOnAction(event1);
 
-        // parse the selected option
-        int time = Integer.parseInt(selectedOption[0]);
 
-        // set the duration of game for each player
-        LandingPage.setDuration(time);
+
 
 
         // Create a Horizontal Box to hold the buttons
