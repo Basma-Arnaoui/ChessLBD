@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -50,19 +51,29 @@ public class Result extends Application {
         background.setEffect(colorAdjust);
 
         // Restarting a Game button
-        Button restartGameButton = new Button("Restart Game");
+        Button restartGameButton = new Button("New game");
         restartGameButton.setStyle("-fx-style-sheet: url('css/restart-btn.css')");
         restartGameButton.setTranslateY(-200);
         restartGameButton.setPadding(new Insets(10, 30, 10, 30));
         restartGameButton.setStyle("-fx-text-fill: black; -fx-background-color: grey; -fx-font-size: 32pt; -fx-font-weight: 800; -fx-border-style: solid; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 8px");
         restartGameButton.setOpacity(0.6);
 
+        // Exit
+        Button exit = new Button("Exit");
+        exit.setStyle("-fx-text-fill: black; -fx-background-color: grey; -fx-font-size: 32pt; -fx-font-weight: 800; -fx-border-style: solid; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 8px");
+        exit.setTranslateX(10);
+        exit.setTranslateY(10);
+        // Exit the game when the ExitButton is clicked
+        exit.setOnAction(event -> Platform.exit());
+
+
+
 
         restartGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    new TestDesign().start(new Stage());
+                    new LandingPage().start(new Stage());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -74,7 +85,7 @@ public class Result extends Application {
         box.setSpacing(40);
         box.setTranslateY(100);
 
-        StackPane root = new StackPane(background, box, restartGameButton);
+        StackPane root = new StackPane(background, box, restartGameButton,exit);
         Scene scene =  new Scene(root, 1000, 1000);
 
         // Show the final window

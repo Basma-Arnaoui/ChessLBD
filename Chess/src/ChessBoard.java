@@ -420,17 +420,10 @@ public class ChessBoard extends GridPane{
                         while (var3.hasNext()) {
                             c = (Position) var3.next();
                             if (c.equals(clickedPosition)) {
-                                if((clickedPosition.getIsOccupied()==true)&& (clickedPosition.getOccupyingPiece().getName().equals("king"))){ new Result().start(new Stage());
-                                    new java.util.Timer().schedule(
-                                            new java.util.TimerTask() {
-                                                @Override
-                                                public void run() {
-                                                    Platform.exit();
-                                                }
-                                            },
-                                            10000
-                                    );
-                                }                                ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
+                                if((clickedPosition.getIsOccupied()==true)&& (clickedPosition.getOccupyingPiece().getName().equals("king"))){
+                                    new Result().start(new Stage());
+                                }
+                                ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
                                 ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
                                 ChessBoard.this.src.changeColor();
                                 if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
@@ -477,15 +470,7 @@ public class ChessBoard extends GridPane{
                                 ChessBoard.winner = "Black";
                             }
                             new Result().start(new Stage());
-                            new java.util.Timer().schedule(
-                                    new java.util.TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            Platform.exit();
-                                        }
-                                    },
-                                    5000
-                            );
+
                             }
                         if (didpass==false){
                         ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
