@@ -23,9 +23,11 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.text.Font;
 import javafx.scene.control.Labeled;
 import java.util.Stack;
+import javax.swing.SingleSelectionModel;
 
 public class LandingPage extends Application {
     static String Theme;
+    static int duration;
 
     public static void main(String[] args) {
         launch(args);
@@ -107,8 +109,39 @@ public class LandingPage extends Application {
         }
 
 
-        // set theme
-        //LandingPage.setTheme(this.getSelected(themeButtons));
+        // Create a time button
+        MenuButton menuButton = new MenuButton("Duration");
+        MenuItem Item1 = new MenuItem("1");
+        MenuItem Item2 = new MenuItem("2");
+        MenuItem Item3 = new MenuItem("15");
+        MenuItem Item4 = new MenuItem("20");
+        MenuItem Item5 = new MenuItem("25");
+        MenuItem Item6 = new MenuItem("30");
+        menuButton.getItems().addAll(Item1, Item2,Item3, Item4,Item5,Item6);
+        menuButton.setStyle("-fx-background-color: lightgray; -fx-font-size: 18px;");
+
+        final String[] selectedOption = {"1"};
+        // create action event
+        EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                selectedOption[0] = ((MenuItem)e.getSource()).getText() ;
+                menuButton.setText(selectedOption[0]);
+                LandingPage.setDuration(Integer.parseInt(selectedOption[0]));
+                //Label lab = new Label("The time for each player will be "+selectedOption[0]+" min.");
+            }
+        };
+
+        // add action events to the menu items
+        Item1.setOnAction(event1);
+        Item2.setOnAction(event1);
+        Item3.setOnAction(event1);
+        Item4.setOnAction(event1);
+        Item5.setOnAction(event1);
+        Item6.setOnAction(event1);
+
+
+
 
 
         // Create a Horizontal Box to hold the buttons
@@ -122,7 +155,7 @@ public class LandingPage extends Application {
         buttonBox.setAlignment(Pos.BOTTOM_CENTER);
         buttonBox.setTranslateY(-200);
         // Create a stack Pane to hold the background image and the buttons
-        StackPane root = new StackPane(background, text, buttonBox, themesBox, newGameButton);
+        StackPane root = new StackPane(background, text, buttonBox, themesBox, newGameButton,menuButton);
 
         // Set the size of the window and show it
         Scene scene = new Scene(root, 1000, 800);
@@ -135,6 +168,10 @@ public class LandingPage extends Application {
         LandingPage.Theme = Theme;
     }
 
+
+    public static void setDuration(int dura){
+        LandingPage.duration = dura;
+    }
     public String getTheme() {
         return Theme;
     }

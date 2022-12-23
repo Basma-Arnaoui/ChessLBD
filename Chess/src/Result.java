@@ -1,3 +1,4 @@
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -5,23 +6,20 @@ import javafx.geometry.Pos;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.effect.Effect;
 import javafx.application.Application;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.HBox;
 import java.lang.RuntimeException;
 
-import java.awt.*;
-import java.util.Locale;
 
 public class Result extends Application {
     public ChessBoard board;
+    static Label titleLabel;
     public static void main(String[] args) {
         launch(args);
     }
@@ -37,10 +35,21 @@ public class Result extends Application {
         background.setFitHeight(1000);
 
         // Announce the winner of the game
-        Label titleLabel = new Label("The " + ChessBoard.winner + " won the game !");
-        titleLabel.setStyle("-fx-font-size: 27pt; -fx-font-weight: 700;");
-        titleLabel.setTextFill(Color.WHITE);
-        titleLabel.setTranslateY(65);
+        if (ChessBoard.winner=="")
+        {
+            titleLabel = new Label("Time is up!");
+            titleLabel.setStyle("-fx-font-size: 27pt; -fx-font-weight: 700;");
+            titleLabel.setTextFill(Color.WHITE);
+            titleLabel.setTranslateY(65);
+        }
+        else{
+            titleLabel = new Label("The " + ChessBoard.winner + " won the game !");
+            titleLabel.setStyle("-fx-font-size: 27pt; -fx-font-weight: 700;");
+            titleLabel.setTextFill(Color.WHITE);
+            titleLabel.setTranslateY(65);
+        }
+
+
 
         // Set the duration of the game
         Label timeElapsedLabel = new Label("Time Elapsed: " + TestDesign.convertSecondsToMinutesSeconds(TestDesign.elapsedTime));
@@ -54,12 +63,22 @@ public class Result extends Application {
         background.setEffect(colorAdjust);
 
         // Restarting a Game button
-        Button restartGameButton = new Button("Restart Game");
+        Button restartGameButton = new Button("New game");
         restartGameButton.setStyle("-fx-style-sheet: url('css/restart-btn.css')");
         restartGameButton.setTranslateY(-200);
         restartGameButton.setPadding(new Insets(10, 30, 10, 30));
         restartGameButton.setStyle("-fx-text-fill: black; -fx-background-color: grey; -fx-font-size: 32pt; -fx-font-weight: 800; -fx-border-style: solid; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 8px");
         restartGameButton.setOpacity(0.6);
+
+        // Exit
+        Button exit = new Button("Exit");
+        exit.setStyle("-fx-text-fill: black; -fx-background-color: grey; -fx-font-size: 32pt; -fx-font-weight: 800; -fx-border-style: solid; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 8px");
+        exit.setTranslateX(10);
+        exit.setTranslateY(10);
+        // Exit the game when the ExitButton is clicked
+        exit.setOnAction(event -> Platform.exit());
+
+
 
 
         restartGameButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -78,7 +97,7 @@ public class Result extends Application {
         box.setSpacing(40);
         box.setTranslateY(100);
 
-        StackPane root = new StackPane(background, box, restartGameButton);
+        StackPane root = new StackPane(background, box, restartGameButton,exit);
         Scene scene =  new Scene(root, 1000, 1000);
 
         // Show the final window
@@ -86,9 +105,5 @@ public class Result extends Application {
         stage.show();
     }
 
-    /*
-    @Override
-    public void start(Stage stage) throws Exception {
-    }
-     */
+
 }

@@ -4,6 +4,7 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 public abstract class Piece {
     String color;
+    int side;
     String name;
     boolean isAlive;
     Position position;
@@ -15,11 +16,15 @@ public abstract class Piece {
         this.position = pos;
         this.isAlive = true;
         this.firstTime = 0;
+        this.side = 0;
     }
     public abstract ArrayList<Position> possibleMoves();
      public void delete(){
          this.isAlive = false;
          this.position = null;
+     }
+     public int getSide(){
+         return this.side;
      }
      public int getFirstTime(){
          return this.firstTime;
@@ -67,6 +72,10 @@ public abstract class Piece {
     public void setPosition(Position position) {
         this.position = position;
     }
+    public ArrayList<Position> canbeenpassed(ArrayList<Position> a){return null;}
 
+    public boolean canbepromoted(){
+         return false;
+    }
 }
 
