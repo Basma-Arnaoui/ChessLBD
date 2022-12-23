@@ -39,6 +39,7 @@ public class TestDesign extends Application {
         pane.getChildren().add(board);
         pane.setPrefSize(840,750);
         pane.setAlignment(board, Pos.CENTER);
+        pane.setStyle("-fx-background-color : rgb(109,103,110);");
 
 
         timerLabel = new Label();
@@ -64,7 +65,7 @@ public class TestDesign extends Application {
             };
             timer.start();
             pane.setAlignment(timerLabel, Pos.BOTTOM_LEFT);
-            timerLabel.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: black; -fx-padding: 10px;");
+            timerLabel.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: rgb(20,106,141); -fx-padding: 10px;-fx-text-fill : rgb(223,233,185);");
 
         // new Label of each game player
 
@@ -73,7 +74,7 @@ public class TestDesign extends Application {
         pane.getChildren().add(whitePlayer);
         pane.getChildren().add(blackPlayer);
 
-        blackPlayer.setStyle("-fx-font-size: 24pt;-fx-color:White; -fx-font-weight: bold; -fx-background-color: Black; -fx-padding: 12px;");
+        blackPlayer.setStyle("-fx-font-size: 24pt;-fx-text-fill:White; -fx-font-weight: bold; -fx-background-color: Black; -fx-padding: 12px;");
         whitePlayer.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: White; -fx-padding: 12px;");
 
         pane.setAlignment(blackPlayer,Pos.TOP_RIGHT);
@@ -90,56 +91,56 @@ public class TestDesign extends Application {
         a.setText("a");
         a.setStyle("-fx-font-size : 20pt; -fx-color : Beige;");
         a.setTranslateX(-375);
-        a.setTranslateY(250);
+        a.setTranslateY(260);
 
         Label b = new Label();
         pane.getChildren().add(b);
         b.setText("b");
         b.setStyle("-fx-font-size : 20pt; -fx-color : Beige;");
         b.setTranslateX(-300);
-        b.setTranslateY(250);
+        b.setTranslateY(260);
 
         Label c = new Label();
         pane.getChildren().add(c);
         c.setText("c");
         c.setStyle("-fx-font-size : 20pt; -fx-color : Beige;");
         c.setTranslateX(-225);
-        c.setTranslateY(250);
+        c.setTranslateY(260);
 
         Label d = new Label();
         pane.getChildren().add(d);
         d.setText("d");
         d.setStyle("-fx-font-size : 20pt; -fx-color : Beige;");
         d.setTranslateX(-150);
-        d.setTranslateY(250);
+        d.setTranslateY(260);
 
         Label e = new Label();
         pane.getChildren().add(e);
         e.setText("e");
         e.setStyle("-fx-font-size : 20pt; -fx-color : Beige;");
         e.setTranslateX(-75);
-        e.setTranslateY(250);
+        e.setTranslateY(260);
 
         Label f = new Label();
         pane.getChildren().add(f);
         f.setText("f");
         f.setStyle("-fx-font-size : 20pt; -fx-color : Beige;");
         f.setTranslateX(0);
-        f.setTranslateY(250);
+        f.setTranslateY(260);
 
         Label g = new Label();
         pane.getChildren().add(g);
         g.setText("g");
         g.setStyle("-fx-font-size : 20pt; -fx-color : Beige;");
         g.setTranslateX(75);
-        g.setTranslateY(250);
+        g.setTranslateY(260);
 
         Label h = new Label();
         pane.getChildren().add(h);
         h.setText("h");
         h.setStyle("-fx-font-size : 20pt; -fx-color : Beige;");
         h.setTranslateX(150);
-        h.setTranslateY(250);
+        h.setTranslateY(260);
 
         Label aa = new Label();
         pane.getChildren().add(aa);
