@@ -19,6 +19,7 @@ import java.lang.RuntimeException;
 
 public class Result extends Application {
     public ChessBoard board;
+    static Label titleLabel;
     public static void main(String[] args) {
         launch(args);
     }
@@ -34,10 +35,21 @@ public class Result extends Application {
         background.setFitHeight(1000);
 
         // Announce the winner of the game
-        Label titleLabel = new Label("The " + ChessBoard.winner + " won the game !");
-        titleLabel.setStyle("-fx-font-size: 27pt; -fx-font-weight: 700;");
-        titleLabel.setTextFill(Color.WHITE);
-        titleLabel.setTranslateY(65);
+        if (ChessBoard.winner=="")
+        {
+            titleLabel = new Label("Time is up!");
+            titleLabel.setStyle("-fx-font-size: 27pt; -fx-font-weight: 700;");
+            titleLabel.setTextFill(Color.WHITE);
+            titleLabel.setTranslateY(65);
+        }
+        else{
+            titleLabel = new Label("The " + ChessBoard.winner + " won the game !");
+            titleLabel.setStyle("-fx-font-size: 27pt; -fx-font-weight: 700;");
+            titleLabel.setTextFill(Color.WHITE);
+            titleLabel.setTranslateY(65);
+        }
+
+
 
         // Set the duration of the game
         Label timeElapsedLabel = new Label("Time Elapsed: " + TestDesign.convertSecondsToMinutesSeconds(TestDesign.elapsedTime));

@@ -22,7 +22,7 @@ public class ChessBoard extends GridPane{
     protected ArrayList<Position> clicks;
     protected ArrayList<Position> srcPossibleMoves;
     protected Position src;
-    protected int turns;
+    protected static int turns;
     protected boolean firstClick;
     protected static String winner = null;
 
@@ -83,7 +83,7 @@ public class ChessBoard extends GridPane{
 
     private void showAlertWithHeaderText(String color) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(color.toUpperCase(Locale.ROOT)+ "IS IN CHECK! MOVE YOUR KING");
+        alert.setHeaderText(color.toUpperCase(Locale.ROOT)+ " IS IN CHECK! MOVE YOUR KING");
 
         alert.showAndWait();
     }
@@ -127,6 +127,7 @@ public class ChessBoard extends GridPane{
         src.occupyingPiece = null;
         src.isOccupied = false;
         p.setPosition(dest);
+
     }
 
     void showAttackPositions(ArrayList<Position> attackPositions){

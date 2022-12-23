@@ -1,7 +1,11 @@
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -46,7 +50,16 @@ public class TestDesign extends Application {
                 @Override
                 public void handle(long now) {
                     elapsedTime = (now - startTime) / 1000000000;
-                    timerLabel.setText("Time elapsed: " + convertSecondsToMinutesSeconds(elapsedTime));
+                    if (elapsedTime==LandingPage.duration*60)
+                    {
+                        ChessBoard.winner = "";
+                        new Result().start(new Stage());
+
+                    }
+                    else{
+                        timerLabel.setText("Time elapsed: " + convertSecondsToMinutesSeconds(elapsedTime));
+                    }
+
                 }
             };
             timer.start();
@@ -55,23 +68,42 @@ public class TestDesign extends Application {
 
         // new Label of each game player
 
-        Label WhitePlayer = new Label();
-        Label BlackPlayer = new Label();
-        pane.getChildren().add(WhitePlayer);
-        pane.getChildren().add(BlackPlayer);
+        Label whitePlayer = new Label();
+        Label blackPlayer = new Label();
+        pane.getChildren().add(whitePlayer);
+        pane.getChildren().add(blackPlayer);
 
-        BlackPlayer.setStyle("-fx-font-size: 24pt;-fx-color:White; -fx-font-weight: bold; -fx-background-color: Black; -fx-padding: 12px;");
-        WhitePlayer.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: White; -fx-padding: 12px;");
-
-        pane.setAlignment(BlackPlayer,Pos.TOP_RIGHT);
-        WhitePlayer.setTranslateY(190);
-        WhitePlayer.setTranslateX(310);
-
-        BlackPlayer.setText("Black Player");
-        WhitePlayer.setText("White Player");
+        blackPlayer.setStyle("-fx-font-size: 24pt;-fx-color:White; -fx-font-weight: bold; -fx-background-color: Black; -fx-padding: 12px;");
+        whitePlayer.setStyle("-fx-font-size: 24pt; -fx-font-weight: bold; -fx-background-color: White; -fx-padding: 12px;");
 
 
 
+        pane.setAlignment(blackPlayer,Pos.TOP_RIGHT);
+        whitePlayer.setTranslateY(190);
+        whitePlayer.setTranslateX(310);
+
+
+        whitePlayer.setText("White Player");
+        blackPlayer.setText("Black Player");
+
+        // Exit
+        Button exit = new Button("Exit");
+        exit.setStyle("-fx-text-fill: black; -fx-background-color: grey; -fx-font-size: 25pt; -fx-font-weight: 800; -fx-border-style: solid; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 8px");
+        pane.setAlignment(exit, Pos.BOTTOM_RIGHT);
+
+        // Exit the game when the ExitButton is clicked
+        exit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    new LandingPage().start(new Stage());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        pane.getChildren().add(exit);
 
         stage.setScene(new Scene(pane));
         stage.show();
