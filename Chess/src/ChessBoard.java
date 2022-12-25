@@ -358,10 +358,14 @@ public class ChessBoard extends GridPane{
                         while (var3.hasNext()) {
                             c = (Position) var3.next();
                             if (c.equals(clickedPosition)) {
+                                // If the attacked position contains a King
                                 if((clickedPosition.getIsOccupied()==true)&& (clickedPosition.getOccupyingPiece().getName().equals("king"))){
+                                    // The game end, the Result Page is Displayed
                                     new Result().start(new Stage());
                                 }
+                                // If the clicked position was not a King
                                 ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
+                                // Make the move from "src" to the clicked Position
                                 ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);
                                 ChessBoard.this.src.changeColor();
                                 if (ChessBoard.this.turns%2==1) ChessBoard.this.isCheck("white");
@@ -378,9 +382,10 @@ public class ChessBoard extends GridPane{
                 }
             } else if (ChessBoard.this.firstClick) {
                 var3 = ChessBoard.this.srcPossibleMoves.iterator();
-                Position lastclick = ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1);
+                Position lastclick = ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1); // Last click before the current click
                 boolean didpass = false;
-                if (lastclick.getOccupyingPiece().getName().equals("pawn")) {
+                if (lastclick.getOccupyingPiece().getName().equals("pawn")) { // If last click was on a Pawn
+                    // If last clicked Pawn can apply "en passant" rule
                     if ((lastclick.getOccupyingPiece().canbeenpassed(lastclick.getOccupyingPiece().possibleMoves()) != null)) {
                         for (Position pos : lastclick.getOccupyingPiece().canbeenpassed(lastclick.getOccupyingPiece().possibleMoves())) {
                             if ((pos.getX() == clickedPosition.getX()) && (pos.getY() == clickedPosition.getY())) {
@@ -400,16 +405,22 @@ public class ChessBoard extends GridPane{
                 while(var3.hasNext()&& castleI==0) {
                     c = (Position)var3.next();
                     if (c.equals(clickedPosition)) {
+                        // If a Piece in turn attacks a King
                         if((clickedPosition.getIsOccupied()==true)&& (clickedPosition.getOccupyingPiece().getName().equals("king"))){
+                            // If the Piece is white
                             if (ChessBoard.this.turns % 2 == 0) {
+                                // The White won the game
                                 ChessBoard.winner = "White";
                             }
                             else {
+                                // The Black won the game
                                 ChessBoard.winner = "Black";
                             }
+                            // Display the Result page
                             new Result().start(new Stage());
 
                             }
+                        
                         if (didpass==false){
                         ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getOccupyingPiece().changeFirstTime();
                         ChessBoard.this.makeMove(ChessBoard.this.src, clickedPosition);}
@@ -426,19 +437,24 @@ public class ChessBoard extends GridPane{
                 }
             }
 
+            // If the click is on a Pawn
             if ((clickedPosition.getIsOccupied())&&(clickedPosition.getOccupyingPiece().getName().equals("pawn"))){
+                // If it can be promoted
                 if (clickedPosition.getOccupyingPiece().canbepromoted()){
-
+                    // Show promotion Window
                     ChessBoard.this.promoAlert(clickedPosition.getOccupyingPiece().getColor());
                     clickedPosition.getOccupyingPiece().setPosition(null);
                     clickedPosition.getOccupyingPiece().setAlive(false);
-                    clickedPosition.getOccupyingPiece().delete();
+                    clickedPosition.getOccupyingPiece().delete(); // Delete the Pawn Piece
                     String to = ChessBoard.this.promoAlert(clickedPosition.getOccupyingPiece().getColor());
+                    // If Player chooses Queen
                     if (to.equals("queen"))   positions[clickedPosition.getX()][clickedPosition.getY()].addPiece(new Queen(clickedPosition.getOccupyingPiece().getColor(),positions[clickedPosition.getX()][clickedPosition.getY()]));
+                    // Bishop
                     else if (to.equals("bishop"))   positions[clickedPosition.getX()][clickedPosition.getY()].addPiece(new Bishop(clickedPosition.getOccupyingPiece().getColor(),positions[clickedPosition.getX()][clickedPosition.getY()]));
+                    // Rook
                     else if (to.equals("rook"))   positions[clickedPosition.getX()][clickedPosition.getY()].addPiece(new Rook(clickedPosition.getOccupyingPiece().getColor(),positions[clickedPosition.getX()][clickedPosition.getY()]));
+                    // Knight
                     else if (to.equals("knight"))   positions[clickedPosition.getX()][clickedPosition.getY()].addPiece(new Knight(clickedPosition.getOccupyingPiece().getColor(),positions[clickedPosition.getX()][clickedPosition.getY()]));
-
                 }
             }
         }
