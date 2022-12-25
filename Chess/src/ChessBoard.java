@@ -28,6 +28,7 @@ public class ChessBoard extends GridPane{
 
     public ChessBoard() {
 
+        // Set the row min-max heights of the chessboard cells
         for (int row = 0; row < 8; row++) {
             RowConstraints rc = new RowConstraints();
             rc.setMinHeight(75);
@@ -35,6 +36,7 @@ public class ChessBoard extends GridPane{
             this.getRowConstraints().add(rc);
         }
 
+        // Set the row min-max widths of the chessboard cells
         for (int col = 0; col < 8; col++) {
             ColumnConstraints cc = new ColumnConstraints();
             cc.setMinWidth(75);
@@ -42,109 +44,69 @@ public class ChessBoard extends GridPane{
             this.getColumnConstraints().add(cc);
         }
 
+        // Create the full 64 cells chessboard
         this.positions = new Position[8][8];
         this.turns = 0; // 0 for white and 1 for black
         this.clicks = new ArrayList<Position>();
 
-        //Button handler to handle click operations
+        // Button handler to handle click operations
         ButtonHandler onClick = new ButtonHandler();
 
-        //Adding positions to gridpane
+        // Adding positions to grid Pane
         for (int row = 0; row < 8; row++) {
             for (int column = 0; column < 8; column++) {
                 positions[row][column] = new Position(row, column,this);
                 positions[row][column].setOnMouseClicked(onClick);
                 positions[row][column].setMinSize(75,75);
                 this.add(positions[row][column], column, row);
-                System.out.print(row+""+column+" ");
+                System.out.print(row + "" + column + " ");
             }
             System.out.println(" ");
         }
         this.setGridLinesVisible(true);
         //adding Pieces
         addPieces();
-
         this.firstClick = false;
     }
 
 
+    // Selecting a Position in the Chessboard
     void selectPosition(Position cell){
         this.firstClick = true;
         src = cell;
         cell.possiblePositions();
-        srcPossibleMoves = cell.getOccupyingPiece().possibleMoves();
+        srcPossibleMoves = cell.getOccupyingPiece().possibleMoves(); // Select all possible Positions the Piece can reach
         for (Position c:srcPossibleMoves){
-            if(c.getIsOccupied())
-                c.attackPositions();
-            else
-                c.possiblePositions();
+            if(c.getIsOccupied()) // if a Position is occupied
+                c.attackPositions(); // Label as an attack Position
+            else // Position is empty
+                c.possiblePositions(); // Label as just a possible Position
         }
     }
 
+    // Create a Window when the King is "In check"
     private void showAlertWithHeaderText(String color) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(color.toUpperCase(Locale.ROOT)+ " IS IN CHECK! MOVE YOUR KING");
 
         alert.showAndWait();
     }
+
+    // Create a Window when a Pawn gets promoted
     private String promoAlert(String color){
-
-        /*final ToggleGroup group = new ToggleGroup();
-        RadioButton rb1 = new RadioButton("Queen");
-        ImageView im1 = new Image().getImage("queen",color);
-        rb1.setGraphic(new ImageView(im1.getImage()));
-        rb1.setToggleGroup(group);
-        rb1.setSelected(true);
-
-
-        RadioButton rb2 = new RadioButton("Bishop");
-        rb2.setToggleGroup(group);
-        ImageView im2 = new Image().getImage("bishop",color);
-        rb2.setGraphic(new ImageView(im2.getImage()));
-
-        RadioButton rb3 = new RadioButton("Rook");
-        rb3.setToggleGroup(group);
-        ImageView im3 = new Image().getImage("rook",color);
-        rb3.setGraphic(new ImageView(im3.getImage()));
-
-        RadioButton rb4 = new RadioButton("Knight");
-        rb4.setToggleGroup(group);
-        ImageView im4 = new Image().getImage("knight",color);
-        rb4.setGraphic(new ImageView(im4.getImage()));
-        final String[] selected = {new String()};
-        Button button= new Button("Choose");
-        button.setOnAction(e ->
-                {
-                    if (rb1.isSelected())
-                        selected[0] = "queen";
-                    else if(rb2.isSelected())
-                        selected[0] = "bishop";
-                    else if(rb3.isSelected())
-                        selected[0] = "rook";
-                    else selected[0] = "knight";
-                }
-        );*/
         final String[] selected = {new String()};
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("PAWN PROMOTION");
         alert.setContentText("Choose your option:");
 
+        // Buttons for possible Promotions
         ButtonType buttonTypeQ = new ButtonType("Queen");
         ButtonType buttonTypeB = new ButtonType("Bishop");
         ButtonType buttonTypeR = new ButtonType("Rook");
         ButtonType buttonTypeK = new ButtonType("Knight");
-
-
         alert.getButtonTypes().setAll(buttonTypeQ, buttonTypeB, buttonTypeR, buttonTypeK);
-        /*ImageView im1 = new Image().getImage("queen",color);
-        alert.setGraphic(new ImageView(im1.getImage()));
-        ImageView im2 = new Image().getImage("bishop",color);
-        alert.setGraphic(new ImageView(im2.getImage()));
-        ImageView im3 = new Image().getImage("rook",color);
-        alert.setGraphic(new ImageView(im3.getImage()));
-        ImageView im4 = new Image().getImage("knight",color);
-        alert.setGraphic(new ImageView(im4.getImage()));*/
 
+        // 1-element ArrayList of Promotions Buttons
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeQ){
             selected[0] = "queen";
@@ -161,19 +123,21 @@ public class ChessBoard extends GridPane{
     }
 
     public void isCheck(String color){
-          for(Position[] lpos : positions){
-            for (Position pos : lpos){
-                if ((pos.isOccupied == true)&&(!pos.getOccupyingPiece().getColor().equals(color))) {
-                    for (Position i : pos.getOccupyingPiece().possibleMoves()){
-                        if ((i.getIsOccupied()==true)&&(i.getOccupyingPiece().getName().equals("king")) ){
-                            showAlertWithHeaderText(color);
-                            i.setBackground(new Background(new BackgroundFill(Color.RED,null,null)));
-                        }
-                    }
-                }
-            }}
+          for(Position[] lpos : positions) { // Iterate Through Rows
+              for (Position pos : lpos) { // Iterate through Position in Row
+                  if ((pos.isOccupied == true) && (!pos.getOccupyingPiece().getColor().equals(color))) { // If the Position is occupied by a Piece of the other "color"
+                      for (Position i : pos.getOccupyingPiece().possibleMoves()) { // Iterate through its possible moves
+                          if ((i.getIsOccupied() == true) && (i.getOccupyingPiece().getName().equals("king"))) { // The Piece can attack the King
+                              showAlertWithHeaderText(color); // Display Alert Window
+                              i.setBackground(new Background(new BackgroundFill(Color.RED, null, null)));
+                          }
+                      }
+                  }
+              }
+          }
     }
 
+    // Deselect all possible positions
     public void deselectAll(Position cell){
         this.firstClick = false;
         cell.possiblePositions();
@@ -181,14 +145,14 @@ public class ChessBoard extends GridPane{
         for (Position c:srcPM){
             this.deselectPosition(c);
         }
-
     }
+
+    //
     void deselectPosition(Position cell){
         cell.setColor();
-
     }
+    // Move the Piece from "src" Position to "dest" Position
     void makeMove(Position src,Position dest){
-
         if(dest.getIsOccupied())
             dest.deletePiece();
         Piece p = src.occupyingPiece;
@@ -202,28 +166,17 @@ public class ChessBoard extends GridPane{
 
     }
 
-    void showAttackPositions(ArrayList<Position> attackPositions){
-        for (Position c: attackPositions) {
-            c.attackPositions();
-        }
-    }
-
-    void showPossiblePositions(ArrayList<Position> possiblePositions){
-        for (Position c: srcPossibleMoves) {
-            c.possiblePositions();
-        }
-    }
-
+    // Reset the background color of an ArrayList of Positions
     void resetColor(ArrayList<Position> resetPositions){
         for(Position c:resetPositions){
             c.setColor();
         }
 
-
     }
 
+    // Set the Pieces in the Chessboard initially
     public void addPieces(){
-
+        // Black Pieces
         positions[0][0].addPiece(new Rook("black",positions[0][0]));
         positions[0][7].addPiece(new Rook("black",positions[0][7]));
 
@@ -236,7 +189,11 @@ public class ChessBoard extends GridPane{
         positions[0][3].addPiece(new Queen("black",positions[0][3]));
         positions[0][4].addPiece(new King("black",positions[0][4]));
 
-        //White
+        // Pawns
+        for (int col=0; col<8; col++){
+            positions[1][col].addPiece(new Pawn("black",positions[1][col]));
+        }
+        //White Pieces
         positions[7][0].addPiece(new Rook("white",positions[7][0]));
         positions[7][7].addPiece(new Rook("white",positions[7][7]));
 
@@ -249,63 +206,45 @@ public class ChessBoard extends GridPane{
         positions[7][4].addPiece(new King("white",positions[7][4]));
         positions[7][3].addPiece(new Queen("white",positions[7][3]));
 
-        for (int col=0; col<8; col++){
-            positions[1][col].addPiece(new Pawn("black",positions[1][col]));
-        }
 
         for (int col=0; col<8; col++){
             positions[6][col].addPiece(new Pawn("white",positions[6][col]));
         }
     }
 
-    public void addRowColumnContraints(GridPane gPane){
-
-        ColumnConstraints columnConstraints = new ColumnConstraints();
-        columnConstraints.setPrefWidth(50);
-        for(int i=0;i<8;i++){
-            gPane.getColumnConstraints().add(columnConstraints);
-        }
-
-        RowConstraints rowConstraints = new RowConstraints();
-
-        rowConstraints.setPrefHeight(50);
-        for(int i=0;i<8;i++){
-            gPane.getRowConstraints().add(rowConstraints);
-        }
-    }
-
+    // Return all the Positions in the Chessboard
     public Position[][] getPositions() {
         return this.positions;
     }
 
-    public GridPane board() {
-        return this;
-    }
-
-
-
-
-    public boolean ltCastle(){
+    // Castling Move
+    public boolean ltCastle(){ // Left Top Castle
+            // If all positions between the King and the Top Left Rook are empty
             if ((positions[0][1].getOccupyingPiece()==null)&&(positions[0][2].getOccupyingPiece()==null)&&(positions[0][3].getOccupyingPiece()==null)) return true;
             return false;
         }
 
-    public boolean rtCastle(){
-
+    public boolean rtCastle(){ // Right Top Castle
+        // If all positions between the King and the Top Right Rook are empty
         if ((positions[0][6].getOccupyingPiece()==null)&&(positions[0][5].getOccupyingPiece()==null)) return true;
         return false;
     }
-    public boolean lbCastle(){
+    public boolean lbCastle(){ // Left Bottom Castle
+        // If all positions between the King and the Left Bottom Rook are empty
         if ((positions[7][1].getOccupyingPiece()==null)&&(positions[7][2].getOccupyingPiece()==null)&&(positions[7][3].getOccupyingPiece()==null)) return true;
         return false;
     }
-    public boolean rbCastle(){
+    public boolean rbCastle(){ // Right Bottom Castle
+        // If all positions between the King and the Right Bottom Rook are empty
         if ((positions[7][6].getOccupyingPiece()==null)&&(positions[7][5].getOccupyingPiece()==null)) return true;
         return false;
     }
+
+
     public class ButtonHandler implements EventHandler<MouseEvent> {
         public ButtonHandler() {
         }
+
 
         public void handle(MouseEvent mouseEvent) {
 
@@ -314,28 +253,24 @@ public class ChessBoard extends GridPane{
             Iterator var3;
             Position c;
             int castleI = 0;
-
+            // If the Clicked Positions is a Black (or White) Piece , and it is the Black's (or White's) turn
             if ((clickedPosition.getIsOccupied()) && (((clickedPosition.getOccupyingPiece().getColor()=="black")&&(ChessBoard.this.turns%2==1)) || ((clickedPosition.getOccupyingPiece().getColor()=="white") && (ChessBoard.this.turns%2==0)))){
-                if (!ChessBoard.this.firstClick) {
-
+                if (!ChessBoard.this.firstClick) { // If this is its first Click on the Piece
                     ChessBoard.this.selectPosition(clickedPosition);
                     ChessBoard.this.clicks.add(clickedPosition);
                     if(clickedPosition.getOccupyingPiece().canbepromoted()){
-
                     }
-
                 }
 
                     else{
-
                         Position lastclick = ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1);
-
-
-
+                        // If the Last Click was on a King and the current click is on Rook
                         if ((lastclick.getOccupyingPiece().getName().equals("king"))&&(clickedPosition.getOccupyingPiece().getName().equals("rook"))){
+                            // If King and Rook were never moved before
                             if((lastclick.getOccupyingPiece().getFirstTime()==0)&&(clickedPosition.getOccupyingPiece().getFirstTime()==0)){
+                                // Clicked Position is Right Top Corner
                                 if ((clickedPosition.getX() == 0) && (clickedPosition.getY() == 7)) {
-                                    if (rtCastle()) {
+                                    if (rtCastle()) { // Performs a Right Top Castling
                                         ChessBoard.this.turns = ChessBoard.this.turns+1;
                                         clickedPosition.getOccupyingPiece().changeFirstTime();
                                         lastclick.getOccupyingPiece().changeFirstTime();
@@ -353,7 +288,7 @@ public class ChessBoard extends GridPane{
 
                                     }
                                 }
-                                if (ltCastle()){
+                                if (ltCastle()){ // Performs a Left Top Castling
                                 if ((clickedPosition.getX() == 0) && (clickedPosition.getY() == 0)) {
                                     ChessBoard.this.turns = ChessBoard.this.turns+1;
                                     clickedPosition.getOccupyingPiece().changeFirstTime();
@@ -371,7 +306,7 @@ public class ChessBoard extends GridPane{
 
                                 }
                                 }
-                                if(lbCastle()){
+                                if(lbCastle()){ // Performs a Left Bottom Castling
                                 if ((clickedPosition.getX() == 7) && (clickedPosition.getY() == 0)) {                                        ChessBoard.this.deselectAll(positions[0][0]);
                                     ChessBoard.this.turns = ChessBoard.this.turns+1;
                                     clickedPosition.getOccupyingPiece().changeFirstTime();
@@ -388,7 +323,7 @@ public class ChessBoard extends GridPane{
                                     ChessBoard.this.srcPossibleMoves = null;
                                 }
                                 }
-                                if (rbCastle()) {
+                                if (rbCastle()) { // Performs a Right Bottom Castling
                                     if ((clickedPosition.getX() == 7) && (clickedPosition.getY() == 7)) {
                                         ChessBoard.this.turns = ChessBoard.this.turns+1;
                                         clickedPosition.getOccupyingPiece().changeFirstTime();
@@ -407,11 +342,9 @@ public class ChessBoard extends GridPane{
                                 }
                             }
                         }
-
-
-
-
+                    // If the Clicked Position is the same as the Last Clicked Position
                     if ((clickedPosition.getY()==ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getY()) & (clickedPosition.getX()==ChessBoard.this.clicks.get(ChessBoard.this.clicks.size()-1).getX())){
+                        // Deselect the Position
                         ChessBoard.this.firstClick = false;
                         ChessBoard.this.deselectPosition(clickedPosition);
                         var3 = ChessBoard.this.srcPossibleMoves.iterator();
@@ -419,12 +352,9 @@ public class ChessBoard extends GridPane{
                             c = (Position) var3.next();
                             ChessBoard.this.deselectPosition(c);
                         }
-
                     }
                     else if (castleI==0){
-
                         var3 = ChessBoard.this.srcPossibleMoves.iterator();
-
                         while (var3.hasNext()) {
                             c = (Position) var3.next();
                             if (c.equals(clickedPosition)) {

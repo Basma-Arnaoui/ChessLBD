@@ -35,6 +35,7 @@ public class LandingPage extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        // Set the title of the Landing Page
         primaryStage.setTitle("Chess Application");
 
         // Create the Text
@@ -42,7 +43,8 @@ public class LandingPage extends Application {
         text.setStyle("-fx-font-size: 50px; -fx-font-weight: 700;");
         text.setFill(Color.WHITE);
         text.setTranslateY(-300);
-        // Create an image view for the chessboard image
+
+        // Create an image view (background) for the chessboard image
         Image chessboardImage = new Image("images/chessboard.jpg");
         ImageView background = new ImageView(chessboardImage);
         background.setFitWidth(1000);
@@ -50,14 +52,13 @@ public class LandingPage extends Application {
         // Set the Contrast of the image
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setContrast(0.1);
-        // Effect imageEffect = colorAdjust;
         background.setEffect(colorAdjust);
-
 
         // Create a button for starting a new game
         Button newGameButton = new Button("Start New Game");
         newGameButton.setStyle("-fx-font-size: 30px; -fx-padding: 15px 50px; -fx-font-weight: bold; -fx-background-color: white; -fx-border-radius: 12px");
         newGameButton.setTranslateY(-175);
+        newGameButton.setOpacity(0.85);
         newGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -70,16 +71,19 @@ public class LandingPage extends Application {
         });
 
         // Create buttons for choosing the theme
+        // Classic Theme
         RadioButton ClassicThemeCheckBox =  new RadioButton("Classic");
         ClassicThemeCheckBox.setTextFill(Color.LIGHTBLUE);
         ClassicThemeCheckBox.setFont(Font.font("Arial", FontWeight.BOLD, 25));
         ClassicThemeCheckBox.setTranslateY(-20);
         ClassicThemeCheckBox.setSelected(true);
+        // Dark Theme
         RadioButton DarkThemeCheckBox = new RadioButton("Dark");
         DarkThemeCheckBox.setTextFill(Color.LIGHTBLUE);
         DarkThemeCheckBox.setFont(Font.font("Arial", FontWeight.BOLD, 25));
         DarkThemeCheckBox.setTranslateY(-20);
         RadioButton SpecialThemeCheckBox = new RadioButton("Special");
+        // Special Theme
         SpecialThemeCheckBox.setTextFill(Color.LIGHTBLUE);
         SpecialThemeCheckBox.setFont(Font.font("Arial", FontWeight.BOLD, 25));
         SpecialThemeCheckBox.setTranslateY(-20);
@@ -89,16 +93,16 @@ public class LandingPage extends Application {
         themeButtons[0] = ClassicThemeCheckBox;
         themeButtons[1] = DarkThemeCheckBox;
         themeButtons[2] = SpecialThemeCheckBox;
+
         // Set the first theme button as selected by default
         LandingPage.setTheme(themeButtons[0].getText());
-
 
         // Add click event to all themes
         for (RadioButton themeButton: themeButtons) {
             themeButton.setOnAction(event -> {
-                // Deselect all other radio buttons
                 for (RadioButton btn: themeButtons) {
                     if (btn != themeButton) {
+                        // Deselect all other radio buttons
                         btn.setSelected(false);
                     }
                 }
@@ -109,7 +113,7 @@ public class LandingPage extends Application {
         }
 
 
-        // Create a time button
+        // Create a timer button
         MenuButton menuButton = new MenuButton("Duration");
         MenuItem Item1 = new MenuItem("1");
         MenuItem Item2 = new MenuItem("2");
@@ -118,17 +122,16 @@ public class LandingPage extends Application {
         MenuItem Item5 = new MenuItem("25");
         MenuItem Item6 = new MenuItem("30");
         menuButton.getItems().addAll(Item1, Item2,Item3, Item4,Item5,Item6);
-        menuButton.setStyle("-fx-background-color: lightgray; -fx-font-size: 18px;");
+        menuButton.setStyle("-fx-background-color: gold; -fx-font-size: 18px;");
 
         final String[] selectedOption = {"1"};
-        // create action event
+        // Create action event
         EventHandler<ActionEvent> event1 = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e)
             {
                 selectedOption[0] = ((MenuItem)e.getSource()).getText() ;
                 menuButton.setText(selectedOption[0]);
                 LandingPage.setDuration(Integer.parseInt(selectedOption[0]));
-                //Label lab = new Label("The time for each player will be "+selectedOption[0]+" min.");
             }
         };
 
@@ -141,9 +144,6 @@ public class LandingPage extends Application {
         Item6.setOnAction(event1);
 
 
-
-
-
         // Create a Horizontal Box to hold the buttons
         HBox themesBox = new HBox(ClassicThemeCheckBox, DarkThemeCheckBox, SpecialThemeCheckBox);
         themesBox.setAlignment(Pos.BOTTOM_CENTER);
@@ -154,8 +154,9 @@ public class LandingPage extends Application {
         buttonBox.setSpacing(30);
         buttonBox.setAlignment(Pos.BOTTOM_CENTER);
         buttonBox.setTranslateY(-200);
+
         // Create a stack Pane to hold the background image and the buttons
-        StackPane root = new StackPane(background, text, buttonBox, themesBox, newGameButton,menuButton);
+        StackPane root = new StackPane(background, text, buttonBox, themesBox, newGameButton, menuButton);
 
         // Set the size of the window and show it
         Scene scene = new Scene(root, 1000, 800);

@@ -25,6 +25,7 @@ public class TestDesign extends Application {
         Application.launch();
     }
 
+    // Time converter from seconds to min:sec format
     public static String convertSecondsToMinutesSeconds(long seconds) {
         long minutes = seconds / 60;
         long remainingSeconds = seconds % 60;
@@ -34,18 +35,19 @@ public class TestDesign extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        // Create the window
         StackPane pane = new StackPane();
         ChessBoard board = new ChessBoard();
         pane.getChildren().add(board);
+        // Select the Window size
         pane.setPrefSize(840,750);
         pane.setAlignment(board, Pos.CENTER);
         pane.setStyle("-fx-background-color : rgb(109,103,110);");
 
-
+        // Set up the timer
         timerLabel = new Label();
         pane.getChildren().add(timerLabel);
 
-            // Set up the timer
         startTime = System.nanoTime();
         AnimationTimer timer = new AnimationTimer() {
                 @Override
@@ -53,11 +55,12 @@ public class TestDesign extends Application {
                     elapsedTime = (now - startTime) / 1000000000;
                     if (elapsedTime==LandingPage.duration*60)
                     {
-                        ChessBoard.winner = "";
+                        ChessBoard.winner = ""; // If no winner yet
                         new Result().start(new Stage());
 
                     }
                     else{
+                        // Display the elapsed time on min:sec format on the screen
                         timerLabel.setText("Time elapsed: " + convertSecondsToMinutesSeconds(elapsedTime));
                     }
 
@@ -69,6 +72,7 @@ public class TestDesign extends Application {
 
         // new Label of each game player
 
+        // White Player and Black Player Labels
         Label whitePlayer = new Label();
         Label blackPlayer = new Label();
         pane.getChildren().add(whitePlayer);
@@ -85,7 +89,7 @@ public class TestDesign extends Application {
         blackPlayer.setText("Black Player");
         whitePlayer.setText("White Player");
 
-
+        // Set the row and column Labels ('a' to 'e')
         Label a = new Label();
         pane.getChildren().add(a);
         a.setText("a");
@@ -199,8 +203,6 @@ public class TestDesign extends Application {
         hh.setTranslateY(205);
 
 
-
-
         pane.setAlignment(blackPlayer,Pos.TOP_RIGHT);
         whitePlayer.setTranslateY(210);
         whitePlayer.setTranslateX(320);
@@ -209,7 +211,7 @@ public class TestDesign extends Application {
         whitePlayer.setText("White Player");
         blackPlayer.setText("Black Player");
 
-        // Exit
+        // Set an Exit Button
         Button exit = new Button("Exit");
         exit.setStyle("-fx-text-fill: black; -fx-background-color: grey; -fx-font-size: 25pt; -fx-font-weight: 800; -fx-border-style: solid; -fx-border-color: white; -fx-border-width: 2px; -fx-border-radius: 8px");
         pane.setAlignment(exit, Pos.BOTTOM_RIGHT);
@@ -227,7 +229,7 @@ public class TestDesign extends Application {
         });
 
         pane.getChildren().add(exit);
-
+        // Show the Window
         stage.setScene(new Scene(pane));
         stage.show();
     }

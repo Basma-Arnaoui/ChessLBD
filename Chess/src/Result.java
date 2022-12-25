@@ -26,7 +26,6 @@ public class Result extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Mohieddine Code
 
         // Setting the background image
         Image endGameImage = new Image("images/endgame.jpg");
@@ -35,7 +34,7 @@ public class Result extends Application {
         background.setFitHeight(1000);
 
         // Announce the winner of the game
-        if (ChessBoard.winner=="")
+        if (ChessBoard.winner=="") // No winner
         {
             titleLabel = new Label("Time is up!");
             titleLabel.setStyle("-fx-font-size: 27pt; -fx-font-weight: 700;");
@@ -51,15 +50,14 @@ public class Result extends Application {
 
 
 
-        // Set the duration of the game
+        // Display the duration of the game
         Label timeElapsedLabel = new Label("Time Elapsed: " + TestDesign.convertSecondsToMinutesSeconds(TestDesign.elapsedTime));
         timeElapsedLabel.setStyle("-fx-text-fill: white; -fx-padding: 15px 25px; -fx-background-color: transparent; -fx-font-weight: 800; -fx-font-size: 30pt; -fx-border-radius: 10px;");
         timeElapsedLabel.setTranslateY(45);
 
         // Set the Contrast of the image
         ColorAdjust colorAdjust = new ColorAdjust();
-        colorAdjust.setContrast(0);
-        // Effect imageEffect = colorAdjust;
+        colorAdjust.setContrast(0.1);
         background.setEffect(colorAdjust);
 
         // Restarting a Game button
@@ -91,13 +89,14 @@ public class Result extends Application {
                 }
             }
         });
-        // Create a Horizontal Box for elapsed time and restart game
+        // Create a Horizontal Box for winner announce and elapsed time
         HBox box = new HBox(titleLabel, timeElapsedLabel);
         box.setAlignment(Pos.TOP_CENTER);
         box.setSpacing(40);
         box.setTranslateY(100);
 
-        StackPane root = new StackPane(background, box, restartGameButton,exit);
+        // Stack all the result page elements
+        StackPane root = new StackPane(background, box, restartGameButton, exit);
         Scene scene =  new Scene(root, 1000, 1000);
 
         // Show the final window

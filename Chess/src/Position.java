@@ -33,20 +33,23 @@ public class Position extends Button{
     }
     public void setColor()
     {
+        // Set Themes Colors
         Color brown = new Color(109/ 255.0, 103 / 255.0, 110 / 255.0, 1.0);
         Color darkGrey = new Color(51 / 255.0, 51 / 255.0, 51 / 255.0, 0.80);
         Color[] Classic = {brown ,LIGHTGOLDENRODYELLOW};
         Color[] Special = {BROWN,BEIGE};
         Color[] Dark = {darkGrey,WHITE};
+
         if (this.theme.equals("Classic"))
         {
-            if ((x+y)%2 == 0){
+            if ((x+y) % 2 == 0){ // If it is an odd square, fill it with first color
                 this.setBackground(new Background(new BackgroundFill(Classic[0], null,null)));;
             }
-            else {
+            else { // Otherwise, if it is an even square, fill it with first color
                 this.setBackground(new Background(new BackgroundFill(Classic[1],null,null)));;
             }
         }
+         // The same process is repeated for other themes
         if (this.theme.equals("Special"))
         {
             if ((this.x+this.y)%2 == 0){
@@ -56,6 +59,7 @@ public class Position extends Button{
                 this.setBackground(new Background(new BackgroundFill(Special[1],null,null)));;
             }
         }
+
         if (this.theme.equals("Dark"))
         {
             if ((this.x+this.y)%2 == 0){
@@ -66,6 +70,8 @@ public class Position extends Button{
             }
         }
     }
+
+    // Get the Piece occupying the chessboard of a position
     public Piece getOccupyingPiece(){
         return this.occupyingPiece;
     }
@@ -73,6 +79,8 @@ public class Position extends Button{
         this.occupyingPiece = p;
         this.isOccupied = true;
     }
+
+    // Delete a piece from the Chessboard
     public void deletePiece(){
         this.getOccupyingPiece().setPosition(null);
         this.getOccupyingPiece().setAlive(false);
@@ -80,25 +88,36 @@ public class Position extends Button{
         this.isOccupied = false;
     }
 
+
     public void changeSelectedCellColor(){
         this.setBackground(new Background(new BackgroundFill(GREEN,null,null)));
     }
 
+    // Change the background color of the Position
     public void changeColor(){
         this.setColor();
     }
+
+    // Change the background color of Positions a Piece could attain
     public void possiblePositions(){
         this.setBackground(new Background(new BackgroundFill(LIGHTBLUE, null, null)));
     }
+
+    // Change the background color of Positions a Piece could attack another Piece at
     public void attackPositions(){
         this.setBackground(new Background(new BackgroundFill(RED,null,null)));
     }
+
+    // Returns true if the Position is occupied by a piece, otherwise false
     public boolean getIsOccupied(){
         return this.isOccupied;
     }
+
     public void setIsOccupied(boolean oc){
         this.isOccupied = oc;
     }
+
+    // Get the row and column of the Position
     public int getX(){
         return this.x;
     }
